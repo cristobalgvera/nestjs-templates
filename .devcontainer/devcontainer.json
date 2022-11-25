@@ -1,0 +1,28 @@
+{
+  "name": "${localWorkspaceFolderBasename}",
+  "dockerComposeFile": ["../../compose.yml", "compose.devcontainer.yml"],
+  "service": "${localWorkspaceFolderBasename}",
+  "workspaceFolder": "/app",
+
+  // Do not down the services when the devcontainer is closed
+  "shutdownAction": "none",
+
+  // Run only this service and the ones that depends on
+  "runServices": ["${localWorkspaceFolderBasename}"],
+
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "AbhijoyBasak.nestjs-files",
+        "esbenp.prettier-vscode",
+        "usernamehw.errorlens",
+        "firsttris.vscode-jest-runner"
+      ]
+    }
+  }
+}

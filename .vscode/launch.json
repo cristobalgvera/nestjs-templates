@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to Server",
+      "port": 9229,
+      "restart": true,
+      "request": "attach",
+      "type": "node"
+    },
+    {
+      "name": "Launch Server (Debug Mode)",
+      "command": "npm run start:debug",
+      "request": "launch",
+      "type": "node-terminal",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug Server",
+      "configurations": ["Launch Server (Debug Mode)", "Attach to Server"],
+      "stopAll": true
+    }
+  ]
+}
