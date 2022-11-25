@@ -42,7 +42,7 @@ function enableSwagger(app: INestApplication, port: number, logger: Logger) {
   const config = new DocumentBuilder()
     // TODO: add proper service name
     .setTitle('SERVICE_NAME')
-    .setDescription('Get charges')
+    .setDescription('SERVICE_DESCRIPTION')
     .setVersion('1.0')
     .setExternalDoc('Postman collection', '/api-json')
     .build();
