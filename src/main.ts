@@ -1,10 +1,10 @@
+import { EnvironmentService } from '@core/environment';
+import { getLogger } from '@core/utils';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { getLogger } from './utils/logger';
 import { WinstonModule } from 'nest-winston';
 import { AppModule } from './app.module';
-import { EnvironmentService } from './environment';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
