@@ -1,4 +1,8 @@
-import { Module } from '@nestjs/common';
+import { EnvironmentModule } from '@core/environment';
+import { Logger, Module } from '@nestjs/common';
 
-@Module({})
+@Module({
+  imports: [EnvironmentModule],
+  providers: [Logger],
+})
 export class AppModule {}
