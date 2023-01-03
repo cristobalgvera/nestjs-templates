@@ -1,7 +1,12 @@
 import { LoggingWinston } from '@google-cloud/logging-winston';
 import { createLogger, format, Logger, transports } from 'winston';
 
-export function getLogger(isProd: boolean): Logger {
+type DefaultMeta = {
+  service: string;
+  [metadata: string]: unknown;
+};
+
+export function getLogger(isProd: boolean, defaultMeta: DefaultMeta): Logger {
   const loggerInstance = createLogger({
     level: 'info',
     format: format.combine(
@@ -11,8 +16,7 @@ export function getLogger(isProd: boolean): Logger {
       format.json(),
       format.colorize({ all: true }),
     ),
-    // TODO: Add proper service name
-    defaultMeta: { service: 'SERVICE_NAME' },
+    defaultMeta,
   });
 
   if (isProd) {

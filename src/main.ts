@@ -24,7 +24,10 @@ async function bootstrap() {
 
   app.useLogger(
     WinstonModule.createLogger({
-      instance: getLogger(environmentService.isProd),
+      instance: getLogger(environmentService.isProd, {
+        // TODO: Add proper service name
+        service: 'SERVICE_NAME',
+      }),
     }),
   );
 

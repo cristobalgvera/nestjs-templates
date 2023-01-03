@@ -9,7 +9,7 @@ module.exports = {
   transform: {
     '^.+\\.ts$': 'ts-jest',
   },
-  collectCoverageFrom: ['**/*.(service|controller|handler).ts'],
+  collectCoverageFrom: ['**/*.(service|controller|handler|util).ts'],
   coverageDirectory: './coverage',
   setupFilesAfterEnv: ['<rootDir>/test/env.setup.js'],
   testEnvironment: 'node',
