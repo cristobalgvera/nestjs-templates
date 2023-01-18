@@ -16,11 +16,7 @@ async function bootstrap() {
 
   const environmentService = app.get(EnvironmentService);
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      disableErrorMessages: environmentService.isProd,
-    }),
-  );
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   app.useLogger(
     WinstonModule.createLogger({
