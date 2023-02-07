@@ -42,6 +42,7 @@
     "winston": "^3.8.2"
   },
   "devDependencies": {
+    "@automock/jest": "^1.0.1",
     "@golevelup/ts-jest": "^0.3.4",
     "@nestjs/cli": "^9.0.0",
     "@nestjs/schematics": "^9.0.0",

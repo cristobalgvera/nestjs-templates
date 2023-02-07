@@ -1,22 +1,16 @@
-import { createMock } from '@golevelup/ts-jest';
+import { TestBed } from '@automock/jest';
 import { ConfigService } from '@nestjs/config';
-import { Test, TestingModule } from '@nestjs/testing';
 import { EnvironmentService } from './environment.service';
 
 describe('EnvironmentService', () => {
-  let environmentService: EnvironmentService;
+  let underTest: EnvironmentService;
   let configService: ConfigService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [EnvironmentService, ConfigService],
-    })
-      .overrideProvider(ConfigService)
-      .useValue(createMock<ConfigService>())
-      .compile();
+    const { unit, unitRef } = TestBed.create(EnvironmentService).compile();
 
-    environmentService = module.get<EnvironmentService>(EnvironmentService);
-    configService = module.get<ConfigService>(ConfigService);
+    underTest = unit;
+    configService = unitRef.get(ConfigService);
   });
 
   describe('getEnvironmentValue', () => {
@@ -26,7 +20,7 @@ describe('EnvironmentService', () => {
 
       jest.spyOn(configService, 'getOrThrow').mockReturnValue(value);
 
-      expect(environmentService.getEnvironmentValue(key)).toEqual(value);
+      expect(underTest.getEnvironmentValue(key)).toEqual(value);
     });
 
     it('should throw an error if the environment variable is not defined', () => {
@@ -34,9 +28,7 @@ describe('EnvironmentService', () => {
         throw new Error();
       });
 
-      expect(() =>
-        environmentService.getEnvironmentValue('NODE_ENV'),
-      ).toThrow();
+      expect(() => underTest.getEnvironmentValue('NODE_ENV')).toThrow();
     });
   });
 
@@ -46,7 +38,7 @@ describe('EnvironmentService', () => {
 
       jest.spyOn(configService, 'getOrThrow').mockReturnValue(value);
 
-      expect(environmentService.isProd).toEqual(true);
+      expect(underTest.isProd).toEqual(true);
     });
 
     it('should return false if the environment variable is not "production"', () => {
@@ -54,7 +46,7 @@ describe('EnvironmentService', () => {
 
       jest.spyOn(configService, 'getOrThrow').mockReturnValue(value);
 
-      expect(environmentService.isProd).toEqual(false);
+      expect(underTest.isProd).toEqual(false);
     });
   });
 
@@ -64,13 +56,13 @@ describe('EnvironmentService', () => {
 
       jest.spyOn(configService, 'getOrThrow').mockReturnValue(expected);
 
-      expect(environmentService.isSwaggerEnabled).toEqual(expected);
+      expect(underTest.isSwaggerEnabled).toEqual(expected);
     });
 
     it('should return false if the environment variable is not "true"', () => {
       jest.spyOn(configService, 'getOrThrow').mockReturnValue(false);
 
-      expect(environmentService.isSwaggerEnabled).toEqual(false);
+      expect(underTest.isSwaggerEnabled).toEqual(false);
     });
   });
 });
