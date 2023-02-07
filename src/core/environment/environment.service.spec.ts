@@ -18,13 +18,13 @@ describe('EnvironmentService', () => {
       const key = 'NODE_ENV';
       const value = 'development';
 
-      jest.spyOn(configService, 'getOrThrow').mockReturnValue(value);
+      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
       expect(underTest.getEnvironmentValue(key)).toEqual(value);
     });
 
     it('should throw an error if the environment variable is not defined', () => {
-      jest.spyOn(configService, 'getOrThrow').mockImplementation(() => {
+      jest.spyOn(configService, 'getOrThrow').mockImplementationOnce(() => {
         throw new Error();
       });
 
@@ -36,7 +36,7 @@ describe('EnvironmentService', () => {
     it('should return true if the environment variable is "production"', () => {
       const value = 'production';
 
-      jest.spyOn(configService, 'getOrThrow').mockReturnValue(value);
+      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
       expect(underTest.isProd).toEqual(true);
     });
@@ -44,7 +44,7 @@ describe('EnvironmentService', () => {
     it('should return false if the environment variable is not "production"', () => {
       const value = 'development';
 
-      jest.spyOn(configService, 'getOrThrow').mockReturnValue(value);
+      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
       expect(underTest.isProd).toEqual(false);
     });
@@ -54,13 +54,13 @@ describe('EnvironmentService', () => {
     it('should return true if the environment variable is "true"', () => {
       const expected = true;
 
-      jest.spyOn(configService, 'getOrThrow').mockReturnValue(expected);
+      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(expected);
 
       expect(underTest.isSwaggerEnabled).toEqual(expected);
     });
 
     it('should return false if the environment variable is not "true"', () => {
-      jest.spyOn(configService, 'getOrThrow').mockReturnValue(false);
+      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(false);
 
       expect(underTest.isSwaggerEnabled).toEqual(false);
     });
