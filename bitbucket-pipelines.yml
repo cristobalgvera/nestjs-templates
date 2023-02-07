@@ -1,0 +1,59 @@
+image: node:18-alpine
+
+definitions:
+  options:
+    docker: true
+  services:
+    docker:
+      memory: 4096
+  caches:
+    sonar: ~/.sonar/cache
+  steps:
+    - step: &build-test-sonarcloud
+        name: Build, test and analyze on SonarCloud
+        caches:
+          - node
+          - sonar
+        size: 2x
+        script:
+          - source JenkinsParams
+          - export VERSION=$(node -p "require('./package.json').version")
+          - export REPOSITORY_NAME=$(echo $BITBUCKET_REPO_FULL_NAME |  sed 's|.*/||')
+          - npm install --quiet
+          - npm run test:cov
+          - pipe: sonarsource/sonarcloud-scan:1.4.0
+            variables:
+              EXTRA_ARGS: >
+                -Dsonar.projectKey=\"${BITBUCKET_PROJECT_KEY}_${REPOSITORY_NAME}\" 
+                -Dsonar.projectName=\"${BITBUCKET_PROJECT_KEY}_${REPOSITORY_NAME}\" 
+                -Dsonar.projectVersion=\"$VERSION\" 
+                -Dsonar.sources=\"$SCAN_SOURCE\" 
+                -Dsonar.exclusions=\"$SCAN_EXCLUDE_FILES\"
+                -Dsonar.javascript.lcov.reportPaths=\"$SCAN_COVERAGE_REPORT\"
+                -Dsonar.coverage.exclusions=\"$SCAN_COVERAGE_EXCLUSIONS\"
+    - step: &check-quality-gate-sonarcloud
+        name: Check the Quality Gate on SonarCloud
+        caches:
+          - sonar
+        size: 2x
+        script:
+          - pipe: sonarsource/sonarcloud-quality-gate:0.1.6
+
+pipelines:
+  branches:
+    development:
+      - step: *build-test-sonarcloud
+      - step: *check-quality-gate-sonarcloud
+    staging:
+      - step: *build-test-sonarcloud
+      - step: *check-quality-gate-sonarcloud
+    qa:
+      - step: *build-test-sonarcloud
+      - step: *check-quality-gate-sonarcloud
+    master:
+      - step: *build-test-sonarcloud
+      - step: *check-quality-gate-sonarcloud
+  pull-requests:
+    '**':
+      - step: *build-test-sonarcloud
+      - step: *check-quality-gate-sonarcloud
