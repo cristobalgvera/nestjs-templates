@@ -12,7 +12,6 @@ async function bootstrap() {
   // TODO: Add proper global prefix
   app.setGlobalPrefix('SERVICE_PREFIX');
   app.enableVersioning();
-  app.enableCors();
 
   const environmentService = app.get(EnvironmentService);
 
