@@ -15,7 +15,14 @@ async function bootstrap() {
 
   const environmentService = app.get(EnvironmentService);
 
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
 
   app.useLogger(
     WinstonModule.createLogger({
