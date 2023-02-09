@@ -77,9 +77,11 @@ describe('EnvironmentValidation', () => {
 
     describe('when the configuration is invalid', () => {
       it('should throw an error', () => {
+        expect.assertions(1);
+
         const expected = 'message';
 
-        validateSchemaMock.mockReturnValueOnce({
+        validateSchemaMock.mockReset().mockReturnValueOnce({
           error: { message: expected },
           value: undefined,
         } as any);
