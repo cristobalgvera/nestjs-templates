@@ -1,7 +1,13 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig');
 
-const COVERAGE_FILE_SUFFIX = ['service', 'controller', 'handler', 'util'];
+const COVERAGE_FILE_SUFFIX = [
+  'service',
+  'controller',
+  'handler',
+  'util',
+  'provider',
+];
 
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
