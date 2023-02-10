@@ -26,7 +26,7 @@ async function bootstrap() {
 
   app.useLogger(
     WinstonModule.createLogger({
-      instance: getLogger(environmentService.isProd, {
+      instance: getLogger(environmentService.isProd(), {
         // TODO: Add proper service name
         service: 'SERVICE_NAME',
       }),
@@ -36,7 +36,7 @@ async function bootstrap() {
   const logger = app.get(Logger);
   const port = environmentService.getEnvironmentValue('PORT');
 
-  if (environmentService.isSwaggerEnabled) enableSwagger(app, port, logger);
+  if (environmentService.isSwaggerEnabled()) enableSwagger(app, port, logger);
 
   await app.listen(port, () => {
     logger.log(`Listening on port ${port}`);
