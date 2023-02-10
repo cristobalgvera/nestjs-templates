@@ -49,7 +49,7 @@ function enableSwagger(app: INestApplication, port: number, logger: Logger) {
     .setTitle('SERVICE_NAME')
     .setDescription('SERVICE_DESCRIPTION')
     .setVersion('1.0')
-    .setExternalDoc('Postman collection', '/api-json')
+    .setExternalDoc('Postman collection', '/api-doc-json')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
