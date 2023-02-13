@@ -1,7 +1,7 @@
 import { Transform } from 'class-transformer';
 
 export class Environment {
-  NODE_ENV: string;
+  NODE_ENV: 'development' | 'production' | 'test';
   PORT: number;
   ENABLE_SWAGGER: boolean;
 
