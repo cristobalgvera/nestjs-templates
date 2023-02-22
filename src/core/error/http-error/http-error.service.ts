@@ -46,7 +46,7 @@ export class HttpErrorService
     caller,
     methodName,
   }: HandleErrorOptions<AxiosError>): Observable<never> {
-    if (!(error instanceof AxiosError))
+    if (!error.isAxiosError)
       throw Error(`Invalid error type. Expected AxiosError`);
 
     this.logger.error(
