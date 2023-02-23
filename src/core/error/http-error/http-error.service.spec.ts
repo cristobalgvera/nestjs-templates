@@ -52,7 +52,14 @@ describe('HttpErrorService', () => {
       it('should log the error', async () => {
         expect.hasAssertions();
 
-        const expectedError = new AxiosError('message');
+        const expectedError = new AxiosError(
+          'message',
+          undefined,
+          undefined,
+          undefined,
+          { data: 'data' } as any,
+        );
+
         const expectedCaller = HttpErrorService;
         const expectedMethod = 'method';
 
@@ -69,7 +76,7 @@ describe('HttpErrorService', () => {
         } catch (error) {
           expect(loggerSpy).toHaveBeenCalledWith(
             `[${expectedCaller.name}: ${expectedMethod}] ${expectedError.message}`,
-            expectedError.stack,
+            expectedError.response?.data,
           );
         }
       });

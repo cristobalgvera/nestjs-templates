@@ -12,52 +12,55 @@ import {
 } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { Observable, throwError } from 'rxjs';
-import { ErrorService, HandleErrorOptions } from '../error-service.interface';
+import { ErrorService, HandleErrorOptions } from '../error-service.abstract';
 
+/**
+ * This class is responsible for handling errors that are thrown by the
+ * HttpService provided by `@nestjs/axios`.
+ *
+ * It will log the error and then throw a NestJS exception based on the
+ * status code of the error.
+ *
+ * ---
+ *
+ * Usage example:
+ *
+ * this.httpService.post('http://localhost:8080').pipe(
+ *   catchError((error) =>
+ *     this.httpErrorService.handleError({
+ *       error,
+ *       caller: MyCallerClass,
+ *       methodName: this.myCallerMethod.name,
+ *     }),
+ *   ),
+ * );
+ */
 @Injectable()
-export class HttpErrorService
-  implements ErrorService<AxiosError, Observable<never>>
-{
-  constructor(private readonly logger: Logger) {}
-
-  /**
-   * This method is responsible for handling errors that are thrown by the
-   * HttpService provided by `@nestjs/axios`.
-   *
-   * It will log the error and then throw a NestJS exception based on the
-   * status code of the error.
-   *
-   * ---
-   *
-   * Usage example:
-   *
-   * this.httpService.post('http://localhost:8080').pipe(
-   *   catchError((error) =>
-   *     this.httpErrorService.handleError({
-   *       error,
-   *       caller: MyCallerClass,
-   *       methodName: this.myCallerMethod.name,
-   *     }),
-   *   ),
-   * );
-   */
-  handleError({
-    error,
-    caller,
-    methodName,
-  }: HandleErrorOptions<AxiosError>): Observable<never> {
-    if (!error.isAxiosError)
-      throw Error(`Invalid error type. Expected AxiosError`);
-
-    this.logger.error(
-      `[${caller.name}: ${methodName}] ${error.message}`,
-      error.stack,
-    );
-
-    return this.throwException(error);
+export class HttpErrorService extends ErrorService<
+  AxiosError,
+  Observable<never>
+> {
+  constructor(private readonly logger: Logger) {
+    super();
   }
 
-  private throwException(error: AxiosError): Observable<never> {
+  protected override logError({
+    caller,
+    methodName,
+    error,
+  }: HandleErrorOptions<AxiosError<unknown, any>>): void {
+    this.logger.error(
+      `[${caller.name}: ${methodName}] ${error.message}`,
+      error.response?.data,
+    );
+  }
+
+  protected validateError(error: AxiosError<unknown, any>): void {
+    if (!error.isAxiosError)
+      throw Error(`Invalid error type. Expected AxiosError`);
+  }
+
+  protected throwException(error: AxiosError<unknown, any>): Observable<never> {
     return throwError(() => {
       if (!error.response) throw new BadGatewayException(error.message);
 
