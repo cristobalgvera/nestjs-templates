@@ -18,20 +18,14 @@ export class RedisService implements OnApplicationShutdown {
     return this.redisClient.quit();
   }
 
-  async set(key: string, data: unknown) {
-    return await this.redisClient.set(key, JSON.stringify(data));
+  set(key: string, data: unknown) {
+    return this.redisClient.set(key, JSON.stringify(data));
   }
 
-  async get(key: string): Promise<string> {
-    const data = await this.redisClient.get(key);
+  async get<T = unknown>(key: string): Promise<T> {
+    const data = await this.getRaw(key);
 
     if (data === null) throw new Error(`Key ${key} has not been set`);
-
-    return data;
-  }
-
-  async getObject<T = unknown>(key: string): Promise<T> {
-    const data = await this.get(key);
 
     try {
       return JSON.parse(data);
@@ -40,5 +34,9 @@ export class RedisService implements OnApplicationShutdown {
         `Value for key ${key} is not a valid JSON string`,
       );
     }
+  }
+
+  getRaw(key: string) {
+    return this.redisClient.get(key);
   }
 }

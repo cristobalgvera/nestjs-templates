@@ -70,44 +70,72 @@ describe('RedisService', () => {
   describe('get', () => {
     describe('when the redis client succeeds', () => {
       beforeEach(() => {
-        jest.spyOn(redisClient, 'get').mockResolvedValue('value');
-      });
-
-      it('should get a value', async () => {
-        const expected = 'value';
-
         jest
           .spyOn(redisClient, 'get')
-          .mockReset()
-          .mockResolvedValueOnce(expected);
-
-        const actual = await underTest.get('key');
-
-        expect(actual).toEqual(expected);
+          .mockResolvedValue(JSON.stringify({ value: 'id' }));
       });
 
-      it('should call the redis client with provided key', async () => {
-        const expected = 'key';
+      describe('when calling redis client', () => {
+        it('should call the redis client with provided key', async () => {
+          const expected = 'key';
 
-        const redisClientSpy = jest.spyOn(redisClient, 'get');
+          const redisClientSpy = jest.spyOn(redisClient, 'get');
 
-        await underTest.get(expected);
-
-        expect(redisClientSpy).toHaveBeenCalledWith(expected);
-      });
-
-      it('should throw an error if the key has not been set', async () => {
-        expect.assertions(1);
-
-        const expected = 'expected_key';
-
-        jest.spyOn(redisClient, 'get').mockReset().mockResolvedValueOnce(null);
-
-        try {
           await underTest.get(expected);
-        } catch (actual) {
-          expect(actual.message).toMatch(expected);
-        }
+
+          expect(redisClientSpy).toHaveBeenCalledWith(expected);
+        });
+
+        describe('when the key has not been set', () => {
+          it('should throw an error', async () => {
+            expect.assertions(1);
+
+            const expected = 'expected_key';
+
+            jest
+              .spyOn(redisClient, 'get')
+              .mockReset()
+              .mockResolvedValueOnce(null);
+
+            try {
+              await underTest.get(expected);
+            } catch (actual) {
+              expect(actual.message).toMatch(expected);
+            }
+          });
+        });
+      });
+
+      describe('when the parse succeeds', () => {
+        it('should get a parsed value', async () => {
+          const expected = { expected: 'id' };
+
+          jest
+            .spyOn(redisClient, 'get')
+            .mockReset()
+            .mockResolvedValueOnce(JSON.stringify(expected));
+
+          const actual = await underTest.get('key');
+
+          expect(actual).toEqual(expected);
+        });
+      });
+
+      describe('when the parse fails', () => {
+        it('should throw an error', async () => {
+          const expected = 'key';
+
+          jest
+            .spyOn(redisClient, 'get')
+            .mockReset()
+            .mockResolvedValueOnce('value');
+
+          try {
+            await underTest.get(expected);
+          } catch (actual) {
+            expect(actual.message).toEqual(expect.stringContaining(expected));
+          }
+        });
       });
     });
 
@@ -128,42 +156,48 @@ describe('RedisService', () => {
     });
   });
 
-  describe('getObject', () => {
+  describe('getRaw', () => {
     beforeEach(() => {
-      jest
-        .spyOn(redisClient, 'get')
-        .mockResolvedValue(JSON.stringify({ value: 'id' }));
+      jest.spyOn(redisClient, 'get').mockResolvedValue('value');
     });
 
-    describe('when the parse succeeds', () => {
-      it('should get a parsed value', async () => {
-        const expected = { expected: 'id' };
+    describe('when calling redis client', () => {
+      describe('when the redis client succeeds', () => {
+        it('should call the redis client with provided key', async () => {
+          const expected = 'key';
 
-        jest
-          .spyOn(redisClient, 'get')
-          .mockReset()
-          .mockResolvedValueOnce(JSON.stringify(expected));
+          const redisClientSpy = jest.spyOn(redisClient, 'get');
 
-        const actual = await underTest.getObject('key');
+          await underTest.getRaw(expected);
 
-        expect(actual).toEqual(expected);
+          expect(redisClientSpy).toHaveBeenCalledWith(expected);
+        });
+
+        describe.each(['value', null])(
+          'when returning the redis client response for %s',
+          (response) => {
+            beforeEach(() => {
+              jest.spyOn(redisClient, 'get').mockResolvedValueOnce(response);
+            });
+
+            it('should return the redis client response', async () => {
+              const expected = await underTest.getRaw('key');
+
+              expect(expected).toEqual(response);
+            });
+          },
+        );
       });
-    });
+      describe('when the redis client fails', () => {
+        it('should throw the error thrown by the redis client', () => {
+          expect.hasAssertions();
 
-    describe('when the parse fails', () => {
-      it('should throw an error', async () => {
-        const expected = 'key';
+          const expected = new Error('error');
 
-        jest
-          .spyOn(redisClient, 'get')
-          .mockReset()
-          .mockResolvedValueOnce('value');
+          jest.spyOn(redisClient, 'get').mockRejectedValueOnce(expected);
 
-        try {
-          await underTest.getObject(expected);
-        } catch (actual) {
-          expect(actual.message).toMatch(expected);
-        }
+          expect(() => underTest.getRaw('key')).rejects.toThrowError(expected);
+        });
       });
     });
   });
