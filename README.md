@@ -32,54 +32,6 @@
 $ yarn install
 ```
 
-## :exclamation: Database
-
-The project persist data using TypeORM. To accomplish this, it uses migrations
-as a database versioning system. It's important to follow the convention in order
-to encourage the maintainability of the project.
-
-Every migration generated or created is located in the [migrations folder](./src/core/database/migrations/).
-
-The easiest way to make use of this migrations system is to follow the [workflow](#workflow)
-proposed below. It make extensive use of the custom scripts located in the
-[package.json](./package.json) file
-
-### Workflow
-
-The workflow to proper modify the database schema is the following:
-
-1. Make changes to your entities.
-1. Run `npm run migration:generate --name=YourMigrationName -- --dr` and
-   watch the generated output. If it is correct, proceed to the next step, else
-   go back and make changes to your entities again.
-1. Run `npm run migration:generate --name=YourMigrationName`.
-1. Do one of these:
-   - Launch the app building it before (`npm run build` and then `npm run start:dev`).
-   - Run the migration manually using `npm run migration:run`
-1. Check your changes in the database. If there are unwanted changes, run
-   `npm run migration:revert`, remove the previously generated file, and start
-   again.
-1. Commit your changes.
-
-### Migration related scripts
-
-```bash
-# generate migration based on your changes
-$ npm run migration:generate --name=YourMigrationName
-
-# generate migration in dry run (don't write anything)
-$ npm run migration:generate --name=YourMigrationName -- --dr
-
-# create an empty migration file
-$ npm run migration:create --name=YourMigrationName
-
-# run migrations manually
-$ npm run migration:run
-
-# revert last migration
-$ npm run migration:revert
-```
-
 ## Running the app
 
 ```bash

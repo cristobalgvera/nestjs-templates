@@ -14,9 +14,6 @@ export class DatabaseService implements TypeOrmOptionsFactory {
       password: this.environmentService.getEnvironmentValue('DB_PASSWORD'),
       database: this.environmentService.getEnvironmentValue('DB_NAME'),
       autoLoadEntities: true,
-      migrations: ['dist/**/migrations/*.js'],
-      migrationsTableName: 'migrations_typeorm',
-      migrationsRun: true,
     };
 
     if (this.environmentService.isProd())

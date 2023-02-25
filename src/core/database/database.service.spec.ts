@@ -47,13 +47,10 @@ describe('DatabaseService', () => {
     it('should contain some extra helper properties', () => {
       const expectedDefinedProperties: Array<keyof TypeOrmModuleOptions> = [
         'type',
-        'migrationsTableName',
       ];
 
       const expected: TypeOrmModuleOptions = {
         autoLoadEntities: true,
-        migrations: ['dist/**/migrations/*.js'],
-        migrationsRun: true,
       };
 
       const actual = underTest.createTypeOrmOptions();
