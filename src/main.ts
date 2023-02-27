@@ -44,20 +44,22 @@ async function bootstrap() {
 }
 
 function enableSwagger(app: INestApplication, port: number, logger: Logger) {
+  const SWAGGER_PATH = 'api-doc';
+
   const config = new DocumentBuilder()
     // TODO: add proper service name
     .setTitle('SERVICE_NAME')
     .setDescription('SERVICE_DESCRIPTION')
     .setVersion('1.0')
-    .setExternalDoc('Postman collection', '/api-doc-json')
+    .setExternalDoc('Postman collection', `${SWAGGER_PATH}-json`)
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
 
-  logger.log(`[Swagger URL]: http://localhost:${port}/api-doc`);
-  logger.log(`[Postman JSON]: http://localhost:${port}/api-doc-json`);
+  logger.log(`[Swagger URL]: http://localhost:${port}/${SWAGGER_PATH}`);
+  logger.log(`[Postman JSON]: http://localhost:${port}/${SWAGGER_PATH}-json`);
 
-  SwaggerModule.setup('api-doc', app, document);
+  SwaggerModule.setup(SWAGGER_PATH, app, document);
 }
 
 bootstrap();
