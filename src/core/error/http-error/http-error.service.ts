@@ -73,7 +73,7 @@ export class HttpErrorService extends ErrorService<
           throw new NotFoundException(error.response.data);
         case HttpStatus.PAYMENT_REQUIRED:
           throw new HttpException(
-            error.response.data!,
+            error.response.data as Record<string, unknown>,
             HttpStatus.PAYMENT_REQUIRED,
           );
         case HttpStatus.CONFLICT:
