@@ -37,7 +37,7 @@ describe('HttpErrorService', () => {
             underTest.handleError({
               error: error as any,
               caller: 'caller' as any,
-              methodName: 'method',
+              method: 'method' as any,
             }),
           );
         } catch (actual) {
@@ -61,7 +61,7 @@ describe('HttpErrorService', () => {
         );
 
         const expectedCaller = HttpErrorService;
-        const expectedMethod = 'method';
+        const expectedMethod = () => ({});
 
         const loggerSpy = jest.spyOn(logger, 'error');
 
@@ -70,12 +70,12 @@ describe('HttpErrorService', () => {
             underTest.handleError({
               error: expectedError as any,
               caller: expectedCaller,
-              methodName: expectedMethod,
+              method: expectedMethod,
             }),
           );
         } catch (error) {
           expect(loggerSpy).toHaveBeenCalledWith(
-            `[${expectedCaller.name}: ${expectedMethod}] ${expectedError.message}`,
+            `[${expectedCaller.name}: ${expectedMethod.name}] ${expectedError.message}`,
             expectedError.response?.data,
           );
         }
@@ -121,7 +121,7 @@ describe('HttpErrorService', () => {
               underTest.handleError({
                 error,
                 caller: 'caller' as any,
-                methodName: 'method',
+                method: 'method' as any,
               }),
             );
           } catch (error) {

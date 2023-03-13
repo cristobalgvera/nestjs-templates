@@ -8,7 +8,7 @@ export type HandleErrorOptions<E extends Error> = {
   caller: Type;
 
   /** The method of the class from where `handleError` is called */
-  methodName: string;
+  method: (...args: unknown[]) => unknown;
 };
 
 type HandleErrorOptionsSchema<E extends Error> = Pick<
@@ -54,7 +54,7 @@ export abstract class ErrorService<
    *   this.errorService.handleError({
    *     error,
    *     caller: MyCallerClass,
-   *     methodName: this.myCallerMethod.name,
+   *     method: this.myCallerMethod,
    *   }),
    * }
    */
@@ -70,10 +70,10 @@ export abstract class ErrorService<
    * This method must log the error in any required context.
    */
   protected logError(options: Opts): void {
-    const { caller, methodName, error } = options;
+    const { caller, method, error } = options;
 
     this._logger.error(
-      `[${caller?.name}: ${methodName}] ${error.message}`,
+      `[${caller?.name}: ${method?.name}] ${error.message}`,
       error.stack,
     );
   }

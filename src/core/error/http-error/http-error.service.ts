@@ -30,7 +30,7 @@ import { ErrorService, HandleErrorOptions } from '../error-service.abstract';
  *     this.httpErrorService.handleError({
  *       error,
  *       caller: MyCallerClass,
- *       methodName: this.myCallerMethod.name,
+ *       method: this.myCallerMethod,
  *     }),
  *   ),
  * );
@@ -46,11 +46,11 @@ export class HttpErrorService extends ErrorService<
 
   protected override logError({
     caller,
-    methodName,
+    method,
     error,
   }: HandleErrorOptions<AxiosError<unknown, any>>): void {
     this.logger.error(
-      `[${caller.name}: ${methodName}] ${error.message}`,
+      `[${caller.name}: ${method.name}] ${error.message}`,
       error.response?.data,
     );
   }
