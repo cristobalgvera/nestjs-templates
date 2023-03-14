@@ -19,7 +19,7 @@ type HandleErrorOptionsSchema<E extends Error> = Pick<
 
 export abstract class ErrorService<
   Err extends Error = Error,
-  Resp = void,
+  Resp = never,
   Opts extends HandleErrorOptionsSchema<Err> = HandleErrorOptions<Err>,
 > {
   private readonly _logger = new Logger(ErrorService.name);
