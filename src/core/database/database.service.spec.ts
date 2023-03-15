@@ -27,7 +27,7 @@ describe('DatabaseService', () => {
 
     beforeEach(() => {
       jest
-        .spyOn(environmentService, 'getEnvironmentValue')
+        .spyOn(environmentService, 'get')
         .mockImplementation((key) => environment[key]);
     });
 
