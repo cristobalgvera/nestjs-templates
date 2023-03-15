@@ -13,56 +13,68 @@ describe('EnvironmentService', () => {
     configService = unitRef.get(ConfigService);
   });
 
-  describe('getEnvironmentValue', () => {
-    it('should return the value of the environment variable', () => {
-      const key = 'NODE_ENV';
-      const value = 'development';
+  describe('get', () => {
+    describe('when the variable is defined', () => {
+      it('should return the value', () => {
+        const key = 'NODE_ENV';
+        const value = 'development';
 
-      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
+        jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
-      expect(underTest.getEnvironmentValue(key)).toEqual(value);
+        expect(underTest.get(key)).toEqual(value);
+      });
     });
 
-    it('should throw an error if the environment variable is not defined', () => {
-      jest.spyOn(configService, 'getOrThrow').mockImplementationOnce(() => {
-        throw new Error();
-      });
+    describe('when the variable is not defined', () => {
+      it('should throw an error', () => {
+        jest.spyOn(configService, 'getOrThrow').mockImplementationOnce(() => {
+          throw new Error();
+        });
 
-      expect(() => underTest.getEnvironmentValue('NODE_ENV')).toThrow();
+        expect(() => underTest.get('NODE_ENV')).toThrow();
+      });
     });
   });
 
   describe('isProd', () => {
-    it('should return true if the environment variable is "production"', () => {
-      const value = 'production';
+    describe('when the environment variable is "production"', () => {
+      it('should return true', () => {
+        const value = 'production';
 
-      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
+        jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
-      expect(underTest.isProd()).toEqual(true);
+        expect(underTest.isProd()).toEqual(true);
+      });
     });
 
-    it('should return false if the environment variable is not "production"', () => {
-      const value = 'development';
+    describe('when the environment variable is not "production"', () => {
+      it('should return false', () => {
+        const value = 'development';
 
-      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
+        jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
-      expect(underTest.isProd()).toEqual(false);
+        expect(underTest.isProd()).toEqual(false);
+      });
     });
   });
 
   describe('isSwaggerEnabled', () => {
-    it('should return true if the environment variable is "true"', () => {
-      const expected = true;
+    describe('when the environment variable is "true"', () => {
+      it('should return true', () => {
+        const expected = true;
 
-      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(expected);
+        jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(expected);
 
-      expect(underTest.isSwaggerEnabled()).toEqual(expected);
+        expect(underTest.isSwaggerEnabled()).toEqual(expected);
+      });
     });
 
-    it('should return false if the environment variable is not "true"', () => {
-      jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(false);
+    describe('when the environment variable is not "true"', () => {
+      it('should return false', () => {
+        jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(false);
 
-      expect(underTest.isSwaggerEnabled()).toEqual(false);
+        expect(underTest.isSwaggerEnabled()).toEqual(false);
+      });
     });
   });
 });
