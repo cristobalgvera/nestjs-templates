@@ -34,7 +34,7 @@ async function bootstrap() {
   );
 
   const logger = app.get(Logger);
-  const port = environmentService.getEnvironmentValue('PORT');
+  const port = environmentService.get('PORT');
 
   if (environmentService.isSwaggerEnabled()) enableSwagger(app, port, logger);
 

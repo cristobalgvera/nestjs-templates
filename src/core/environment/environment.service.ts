@@ -8,17 +8,15 @@ export class EnvironmentService {
     private readonly configService: ConfigService<Environment, true>,
   ) {}
 
-  getEnvironmentValue<Key extends keyof Environment>(
-    key: Key,
-  ): Environment[Key] {
+  get<Key extends keyof Environment>(key: Key): Environment[Key] {
     return this.configService.getOrThrow(key);
   }
 
   isSwaggerEnabled(): boolean {
-    return this.getEnvironmentValue('ENABLE_SWAGGER');
+    return this.get('ENABLE_SWAGGER');
   }
 
   isProd(): boolean {
-    return this.getEnvironmentValue('NODE_ENV') === 'production';
+    return this.get('NODE_ENV') === 'production';
   }
 }
