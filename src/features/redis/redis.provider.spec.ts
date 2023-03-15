@@ -44,7 +44,7 @@ describe('RedisProvider', () => {
 
       beforeEach(() => {
         environmentService = createMock<EnvironmentService>({
-          getEnvironmentValue: (key) => environment[key],
+          get: (key) => environment[key],
         });
 
         actual.useFactory(environmentService);

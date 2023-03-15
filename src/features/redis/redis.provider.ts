@@ -12,9 +12,9 @@ export class RedisProvider {
       useFactory(environmentService: EnvironmentService) {
         return new Redis({
           lazyConnect: true,
-          host: environmentService.getEnvironmentValue('REDISHOST'),
-          port: environmentService.getEnvironmentValue('REDISPORT'),
-          password: environmentService.getEnvironmentValue('REDISAUTH'),
+          host: environmentService.get('REDISHOST'),
+          port: environmentService.get('REDISPORT'),
+          password: environmentService.get('REDISAUTH'),
         });
       },
     };
