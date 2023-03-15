@@ -9,23 +9,22 @@ export class DatabaseService implements TypeOrmOptionsFactory {
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const sharedTypeOrmModuleOptions: TypeOrmModuleOptions = {
       type: 'mysql',
-      port: this.environmentService.getEnvironmentValue('DB_PORT'),
-      username: this.environmentService.getEnvironmentValue('DB_USERNAME'),
-      password: this.environmentService.getEnvironmentValue('DB_PASSWORD'),
-      database: this.environmentService.getEnvironmentValue('DB_NAME'),
+      port: this.environmentService.get('DB_PORT'),
+      username: this.environmentService.get('DB_USERNAME'),
+      password: this.environmentService.get('DB_PASSWORD'),
+      database: this.environmentService.get('DB_NAME'),
       autoLoadEntities: true,
     };
 
     if (this.environmentService.isProd())
       return {
         ...sharedTypeOrmModuleOptions,
-        socketPath:
-          this.environmentService.getEnvironmentValue('DB_SOCKET_PATH'),
+        socketPath: this.environmentService.get('DB_SOCKET_PATH'),
       };
 
     return {
       ...sharedTypeOrmModuleOptions,
-      host: this.environmentService.getEnvironmentValue('DB_HOST'),
+      host: this.environmentService.get('DB_HOST'),
     };
   }
 }
