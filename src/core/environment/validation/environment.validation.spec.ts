@@ -77,7 +77,7 @@ describe('EnvironmentValidation', () => {
 
     describe('when the configuration is invalid', () => {
       it('should throw an error', () => {
-        expect.assertions(1);
+        expect.hasAssertions();
 
         const expected = 'message';
 
@@ -86,11 +86,7 @@ describe('EnvironmentValidation', () => {
           value: undefined,
         } as any);
 
-        try {
-          validateEnvironment({} as any);
-        } catch (actual) {
-          expect(actual.message).toEqual(expected);
-        }
+        expect(() => validateEnvironment({} as any)).toThrow(expected);
       });
     });
   });
