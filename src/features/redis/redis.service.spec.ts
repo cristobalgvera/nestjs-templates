@@ -52,17 +52,15 @@ describe('RedisService', () => {
 
     describe('when the redis client fails', () => {
       it('should throw the error thrown by the redis client', async () => {
-        expect.assertions(1);
+        expect.hasAssertions();
 
         const expected = new Error('error');
 
         jest.spyOn(redisClient, 'set').mockRejectedValueOnce(expected);
 
-        try {
-          await underTest.set('key', 'value');
-        } catch (actual) {
-          expect(actual).toEqual(expected);
-        }
+        await expect(() => underTest.set('key', 'value')).rejects.toEqual(
+          expected,
+        );
       });
     });
   });
@@ -90,18 +88,16 @@ describe('RedisService', () => {
           it('should throw an error', async () => {
             expect.assertions(1);
 
-            const expected = 'expected_key';
-
             jest
               .spyOn(redisClient, 'get')
               .mockReset()
               .mockResolvedValueOnce(null);
 
-            try {
-              await underTest.get(expected);
-            } catch (actual) {
-              expect(actual.message).toMatch(expected);
-            }
+            await expect(() =>
+              underTest.get('expected_key'),
+            ).rejects.toThrowErrorMatchingInlineSnapshot(
+              `"Key expected_key has not been set"`,
+            );
           });
         });
       });
@@ -123,18 +119,18 @@ describe('RedisService', () => {
 
       describe('when the parse fails', () => {
         it('should throw an error', async () => {
-          const expected = 'key';
+          expect.hasAssertions();
 
           jest
             .spyOn(redisClient, 'get')
             .mockReset()
             .mockResolvedValueOnce('value');
 
-          try {
-            await underTest.get(expected);
-          } catch (actual) {
-            expect(actual.message).toEqual(expect.stringContaining(expected));
-          }
+          await expect(() =>
+            underTest.get('expected_key'),
+          ).rejects.toThrowErrorMatchingInlineSnapshot(
+            `"Value for key expected_key is not a valid JSON string"`,
+          );
         });
       });
     });
@@ -147,11 +143,7 @@ describe('RedisService', () => {
 
         jest.spyOn(redisClient, 'get').mockRejectedValueOnce(expected);
 
-        try {
-          await underTest.get('key');
-        } catch (actual) {
-          expect(actual).toEqual(expected);
-        }
+        await expect(() => underTest.get('key')).rejects.toThrow(expected);
       });
     });
   });
@@ -189,14 +181,14 @@ describe('RedisService', () => {
         );
       });
       describe('when the redis client fails', () => {
-        it('should throw the error thrown by the redis client', () => {
+        it('should throw the error thrown by the redis client', async () => {
           expect.hasAssertions();
 
           const expected = new Error('error');
 
           jest.spyOn(redisClient, 'get').mockRejectedValueOnce(expected);
 
-          expect(() => underTest.getRaw('key')).rejects.toThrowError(expected);
+          await expect(() => underTest.getRaw('key')).rejects.toThrow(expected);
         });
       });
     });
