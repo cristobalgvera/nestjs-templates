@@ -43,7 +43,9 @@ describe('EnvironmentService', () => {
 
         jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
-        expect(underTest.isProd()).toEqual(true);
+        const actual = underTest.isProd();
+
+        expect(actual).toBe(true);
       });
     });
 
@@ -53,7 +55,9 @@ describe('EnvironmentService', () => {
 
         jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
-        expect(underTest.isProd()).toEqual(false);
+        const actual = underTest.isProd();
+
+        expect(actual).toBe(false);
       });
     });
   });
@@ -65,7 +69,9 @@ describe('EnvironmentService', () => {
 
         jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(expected);
 
-        expect(underTest.isSwaggerEnabled()).toEqual(expected);
+        const actual = underTest.isSwaggerEnabled();
+
+        expect(actual).toEqual(expected);
       });
     });
 
@@ -73,7 +79,9 @@ describe('EnvironmentService', () => {
       it('should return false', () => {
         jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(false);
 
-        expect(underTest.isSwaggerEnabled()).toEqual(false);
+        const actual = underTest.isSwaggerEnabled();
+
+        expect(actual).toBe(false);
       });
     });
   });
