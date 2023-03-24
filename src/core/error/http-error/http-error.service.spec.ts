@@ -32,19 +32,17 @@ describe('HttpErrorService', () => {
 
         const error = new Error();
 
-        try {
-          await firstValueFrom(
+        await expect(() =>
+          firstValueFrom(
             underTest.handleError({
               error: error as any,
               caller: 'caller' as any,
               method: 'method' as any,
             }),
-          );
-        } catch (actual) {
-          expect(actual).toMatchInlineSnapshot(
-            `[Error: Invalid error type. Expected AxiosError]`,
-          );
-        }
+          ),
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Invalid error type. Expected AxiosError"`,
+        );
       });
     });
 
@@ -74,6 +72,8 @@ describe('HttpErrorService', () => {
             }),
           );
         } catch (error) {
+          // Ignore error
+        } finally {
           expect(loggerSpy).toHaveBeenCalledWith(
             `[${expectedCaller.name}: ${expectedMethod.name}] ${expectedError.message}`,
             expectedError.response?.data,

@@ -55,9 +55,11 @@ export class HttpErrorService extends ErrorService<
     );
   }
 
-  protected validateError(error: AxiosError<unknown, any>): void {
+  protected validateError(
+    error: AxiosError<unknown, any>,
+  ): Observable<never> | undefined {
     if (!error.isAxiosError)
-      throw Error(`Invalid error type. Expected AxiosError`);
+      return throwError(() => Error(`Invalid error type. Expected AxiosError`));
   }
 
   protected throwException(error: AxiosError<unknown, any>): Observable<never> {

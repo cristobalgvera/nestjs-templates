@@ -35,7 +35,7 @@ export abstract class ErrorService<
    * that only one type of error must be handled and you need to validate
    * it in runtime.
    */
-  protected validateError?(error: Err): void;
+  protected validateError?(error: Err): Resp | undefined;
 
   /**
    * This method is responsible for handling errors that are thrown by any
@@ -59,7 +59,9 @@ export abstract class ErrorService<
    * }
    */
   handleError(options: Opts): Resp {
-    this.validateError?.(options.error);
+    const erroneousValidation = this.validateError?.(options.error);
+
+    if (erroneousValidation) return erroneousValidation;
 
     this.logError(options);
 

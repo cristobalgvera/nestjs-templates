@@ -39,6 +39,8 @@ describe('RuntimeErrorService', () => {
             caller: {},
           } as any);
         } catch (error) {
+          // Ignore error
+        } finally {
           expect(loggerSpy).toHaveBeenCalledTimes(1);
         }
       });
@@ -48,15 +50,13 @@ describe('RuntimeErrorService', () => {
       it('should throw the same error provided', () => {
         const expected = new Error('error');
 
-        try {
+        expect(() =>
           underTest.handleError({
             error: expected,
             caller: RuntimeErrorService,
             method: () => ({}),
-          });
-        } catch (actual) {
-          expect(actual).toEqual(expected);
-        }
+          }),
+        ).toThrow(expected);
       });
     });
   });
