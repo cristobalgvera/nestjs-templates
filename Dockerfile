@@ -4,7 +4,7 @@ COPY package*.json ./
 RUN npm install --silent --ignore-scripts
 COPY . ./
 RUN npm run build
-RUN npm prune --production
+RUN npm prune --omit=dev
 
 FROM node:18-alpine as production
 WORKDIR /usr/src/app
