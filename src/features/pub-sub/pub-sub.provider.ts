@@ -1,8 +1,10 @@
 import { EnvironmentService } from '@core/environment';
 import { FactoryProvider } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { GCPubSubOptions } from 'nestjs-google-pubsub-microservice';
-import { CustomGCPubSubClient } from './custom-gc-pub-sub.client';
+import {
+  GCPubSubClient,
+  GCPubSubOptions,
+} from 'nestjs-google-pubsub-microservice';
 
 export const PUB_SUB_CLIENT = 'PUB_SUB_CLIENT';
 
@@ -48,7 +50,7 @@ function createProductionClient(
     },
   };
 
-  return new CustomGCPubSubClient(options, environmentService);
+  return new GCPubSubClient(options);
 }
 
 function createDevelopmentClient(
@@ -64,5 +66,5 @@ function createDevelopmentClient(
     },
   };
 
-  return new CustomGCPubSubClient(options, environmentService);
+  return new GCPubSubClient(options);
 }

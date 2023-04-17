@@ -110,4 +110,96 @@ describe('PubSubService', () => {
       });
     });
   });
+
+  describe('sendMessage', () => {
+    function commonOptions(
+      override?: Partial<PublishMessageOptions>,
+    ): PublishMessageOptions {
+      return {
+        pattern: 'pattern',
+        payload: 'payload',
+        ...override,
+      };
+    }
+
+    beforeEach(() => {
+      jest.spyOn(pubSubClient, 'send').mockReturnValue(of({}));
+    });
+
+    describe('when the message is sent successfully', () => {
+      it('should send the message using the pub-sub client', async () => {
+        const pubSubClientSpy = jest.spyOn(pubSubClient, 'send');
+
+        await firstValueFrom(underTest.sendMessage(commonOptions()));
+
+        expect(pubSubClientSpy).toHaveBeenCalled();
+      });
+
+      it('should send the message with the correct arguments', async () => {
+        const expectedPayload = 'expected_payload';
+        const expectedPattern = 'expected_pattern';
+
+        const pubSubClientSpy = jest.spyOn(pubSubClient, 'send');
+
+        await firstValueFrom(
+          underTest.sendMessage(
+            commonOptions({
+              payload: expectedPayload,
+              pattern: expectedPattern,
+            }),
+          ),
+        );
+
+        expect(pubSubClientSpy).toHaveBeenCalledWith<
+          Parameters<ClientProxy['send']>
+        >(expectedPattern, expectedPayload);
+      });
+
+      it('should return the response from the pub-sub client', async () => {
+        const expected = 'expected';
+
+        jest.spyOn(pubSubClient, 'send').mockReturnValueOnce(of(expected));
+
+        const actual = await firstValueFrom(
+          underTest.sendMessage(commonOptions()),
+        );
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe('when the send message fails', () => {
+      it('should log the error', async () => {
+        expect.hasAssertions();
+
+        jest
+          .spyOn(pubSubClient, 'send')
+          .mockReturnValueOnce(throwError(() => new Error()));
+
+        const loggerSpy = jest.spyOn(logger, 'error');
+
+        try {
+          await firstValueFrom(underTest.sendMessage(commonOptions()));
+        } catch (error) {
+          // Ignore the error
+        } finally {
+          expect(loggerSpy).toHaveBeenCalled();
+        }
+      });
+
+      it('should throw a custom error with the actual error message', async () => {
+        expect.hasAssertions();
+
+        const expected = new Error('message');
+
+        jest
+          .spyOn(pubSubClient, 'send')
+          .mockReturnValueOnce(throwError(() => expected));
+
+        await expect(() =>
+          firstValueFrom(underTest.sendMessage(commonOptions())),
+        ).rejects.toThrow(expected.message);
+      });
+    });
+  });
 });
