@@ -14,7 +14,6 @@ const productionEnvironmentSchema: Joi.StrictSchemaMap<Environment> = {
   PUB_SUB_PRIVATE_KEY: Joi.string().required(),
   PUB_SUB_EMULATOR_HOST: Joi.string().uri().forbidden(),
   PUB_SUB_SUBSCRIPTION: Joi.string().forbidden(),
-  PUB_SUB_PUSH_ENDPOINT: Joi.string().uri().forbidden(),
 };
 
 export const environmentSchema = Joi.object<Environment, true>({
@@ -24,7 +23,6 @@ export const environmentSchema = Joi.object<Environment, true>({
     ...productionEnvironmentSchema,
     PUB_SUB_EMULATOR_HOST: Joi.string().uri().required(),
     PUB_SUB_SUBSCRIPTION: Joi.string().required(),
-    PUB_SUB_PUSH_ENDPOINT: Joi.string().uri().required(),
     PUB_SUB_CLIENT_EMAIL: Joi.string().email().forbidden(),
     PUB_SUB_PRIVATE_KEY: Joi.string().forbidden(),
   }),

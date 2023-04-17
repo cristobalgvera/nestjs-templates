@@ -13,4 +13,3 @@ process.env.PUB_SUB_PROJECT_ID = 'project-id';
 process.env.PUB_SUB_TOPIC = 'topic';
 process.env.PUB_SUB_SUBSCRIPTION = 'subscription';
 process.env.PUB_SUB_PATTERN = 'pattern';
-process.env.PUB_SUB_PUSH_ENDPOINT = 'localhost:4321';

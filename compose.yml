@@ -23,7 +23,6 @@ services:
       - PUB_SUB_TOPIC=${PUB_SUB_TOPIC}
       - PUB_SUB_SUBSCRIPTION=${PUB_SUB_SUBSCRIPTION}
       - PUB_SUB_PATTERN=${PUB_SUB_PATTERN}
-      - PUB_SUB_PUSH_ENDPOINT=${PUB_SUB_PUSH_ENDPOINT}
     ports:
       - 8080:8080
     depends_on:

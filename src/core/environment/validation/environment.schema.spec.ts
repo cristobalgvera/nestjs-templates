@@ -25,7 +25,6 @@ describe('EnvironmentSchema', () => {
               NODE_ENV,
               PUB_SUB_EMULATOR_HOST: 'http://localhost:1234',
               PUB_SUB_SUBSCRIPTION: 'subscription',
-              PUB_SUB_PUSH_ENDPOINT: 'http://localhost:9876',
               PUB_SUB_CLIENT_EMAIL: undefined,
               PUB_SUB_PRIVATE_KEY: undefined,
             };
@@ -38,7 +37,6 @@ describe('EnvironmentSchema', () => {
               PUB_SUB_PRIVATE_KEY: 'private-key',
               PUB_SUB_EMULATOR_HOST: undefined,
               PUB_SUB_SUBSCRIPTION: undefined,
-              PUB_SUB_PUSH_ENDPOINT: undefined,
             };
             break;
         }
@@ -98,7 +96,6 @@ describe('EnvironmentSchema', () => {
         PUB_SUB_PRIVATE_KEY: 'private-key',
         PUB_SUB_EMULATOR_HOST: undefined,
         PUB_SUB_SUBSCRIPTION: undefined,
-        PUB_SUB_PUSH_ENDPOINT: undefined,
       };
 
       describe('when environment is valid', () => {
@@ -122,7 +119,6 @@ describe('EnvironmentSchema', () => {
           { NODE_ENV: undefined },
           { PUB_SUB_EMULATOR_HOST: 'http://localhost:3000/invalid' },
           { PUB_SUB_SUBSCRIPTION: 'defined' },
-          { PUB_SUB_PUSH_ENDPOINT: 'http://localhost:9876/defined' },
           { PUB_SUB_CLIENT_EMAIL: undefined },
           { PUB_SUB_CLIENT_EMAIL: 1234 },
           { PUB_SUB_CLIENT_EMAIL: 'not-email' },
@@ -150,7 +146,6 @@ describe('EnvironmentSchema', () => {
         NODE_ENV,
         PUB_SUB_EMULATOR_HOST: 'http://localhost:1234',
         PUB_SUB_SUBSCRIPTION: 'subscription',
-        PUB_SUB_PUSH_ENDPOINT: 'http://localhost:9876',
         PUB_SUB_CLIENT_EMAIL: undefined,
         PUB_SUB_PRIVATE_KEY: undefined,
       };
@@ -184,8 +179,6 @@ describe('EnvironmentSchema', () => {
           { PUB_SUB_SUBSCRIPTION: undefined },
           { PUB_SUB_SUBSCRIPTION: 1234 },
           { PUB_SUB_SUBSCRIPTION: '' },
-          { PUB_SUB_PUSH_ENDPOINT: undefined },
-          { PUB_SUB_PUSH_ENDPOINT: 'not-url' },
           { PUB_SUB_CLIENT_EMAIL: 'defined' },
           { PUB_SUB_PRIVATE_KEY: 'defined' },
         ])('should invalidate if environment has %s', (partialEnvironment) => {
