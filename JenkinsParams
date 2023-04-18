@@ -12,4 +12,6 @@ REDIS=true
 MYSQL=false
 REGISTRY_URL=gcr.io/br-gcp-cicd-devops
 REGISTRY_NAME=chek
-ALLOW_UNAUTHENTICATED=true
+INGRESS=all
+VPC_EGRESS=false
+ALLOW_UNAUTHENTICATED=false
