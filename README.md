@@ -32,6 +32,34 @@
 $ yarn install
 ```
 
+## GCP Pub/Sub
+
+This project allows you to publish into a GCP Pub/Sub topic.
+
+In development mode, you can use the Pub/Sub Emulator provided by Google inside a
+Docker container. This allows you to test your service in local using either pull
+and push subscriptions.
+
+In order to start the service, you will need to configure the environment variables
+to be used in local. Simply copy and paste the content of [.env.dev.example](./.env.dev.example)
+in a `.env` file in the root of your project and follow these instructions:
+
+1. Change the `PUB_SUB_PUSH_ENDPOINT` variable to your local or remote push endpoint
+   (`host.docker.internal` reference your host machine `localhost`). It must be a
+   HTTP `POST` endpoint.
+
+   - Preferably extract the `compose.yml` file and include your related services
+     in there to reference it simply by using the service name.
+
+1. Start the services by running
+
+   ```bash
+   docker compose up -d
+   ```
+
+1. Write your implementations using the `PubSubService` when you want to emit
+   a message to the subscriptors.
+
 ## Running the app
 
 ```bash
