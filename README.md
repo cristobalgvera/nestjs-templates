@@ -32,6 +32,47 @@
 $ yarn install
 ```
 
+## GCP Pub/Sub
+
+This project allows you to subscribe to a GCP Pub/Sub topic using a push subscription.
+
+It will parse the data format sent by Google into a structured object defined in
+your controller, that object will be validated and follow the process defined
+by the service.
+
+In order to properly use this service, follow the steps:
+
+1. Create a controller within a HTTP `POST` endpoint on it.
+
+   - Attach the `ErrorInterceptor` in that route.
+
+     ```ts
+     import { ErrorInterceptor } from '@core/interceptors';
+     import { UseInterceptors, Controller, Post, Body } from '@nestjs/common';
+     // Your imports...
+
+     @Controller({
+       path: 'controller-path',
+       version: '1',
+     })
+     export class YourController {
+       // Your controller implementation...
+
+       @Post('method-path')
+       @UseInterceptors(ErrorInterceptor) // <-- NOTE THIS
+       usefulMethod(@Body() pubSubDataDto: PubSubDataDto) {
+         // Your method implementation...
+       }
+     }
+     ```
+
+   - Optionally, you can set a [global interceptor](https://docs.nestjs.com/interceptors#binding-interceptors)
+     (not recommended in this case).
+
+1. Set the full route _(http://your-service:1234/your-path)_ into the push endpoint
+   defined in the push subscription. Preferably launch your services inside a Docker
+   network for an easier setup.
+
 ## Running the app
 
 ```bash
