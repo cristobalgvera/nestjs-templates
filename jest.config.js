@@ -7,6 +7,12 @@ const COVERAGE_FILE_SUFFIX = [
   'handler',
   'util',
   'provider',
+  'schema',
+  'guard',
+  'validation',
+  'helper',
+  'interceptor',
+  'middleware',
 ];
 
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
