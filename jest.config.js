@@ -15,7 +15,7 @@ const COVERAGE_FILE_SUFFIX = [
   'middleware',
 ];
 
-/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
+/** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
   rootDir: '.',
   moduleFileExtensions: ['js', 'json', 'ts'],
