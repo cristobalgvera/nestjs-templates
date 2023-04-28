@@ -1,6 +1,7 @@
 import {
   CallHandler,
   ExecutionContext,
+  HttpException,
   Injectable,
   Logger,
   NestInterceptor,
@@ -28,10 +29,19 @@ export class ErrorInterceptor implements NestInterceptor {
   intercept(_: ExecutionContext, next: CallHandler) {
     return next.handle().pipe(
       catchError((error: Error) => {
-        this.logger.warn(
-          `There was an error processing the request: ${error.message}`,
-          ErrorInterceptor.name,
-        );
+        if (error instanceof HttpException) {
+          this.logger.error(
+            `There was an error processing the request: ${JSON.stringify(
+              error.getResponse(),
+            )}`,
+            ErrorInterceptor.name,
+          );
+        } else {
+          this.logger.error(
+            `There was an error processing the request: ${error.message}`,
+            ErrorInterceptor.name,
+          );
+        }
 
         return of({
           status: 'Error',

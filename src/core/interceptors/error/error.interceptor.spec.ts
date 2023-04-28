@@ -1,6 +1,6 @@
 import { TestBed } from '@automock/jest';
 import { createMock } from '@golevelup/ts-jest';
-import { CallHandler, Logger } from '@nestjs/common';
+import { CallHandler, HttpException, Logger } from '@nestjs/common';
 import { firstValueFrom, of, throwError } from 'rxjs';
 import { ErrorInterceptor } from './error.interceptor';
 
@@ -45,17 +45,20 @@ describe('ErrorInterceptor', () => {
         `);
       });
 
-      it('should log the error', async () => {
-        jest
-          .spyOn(next, 'handle')
-          .mockReturnValueOnce(throwError(() => new Error()));
+      it.each([new Error('message'), new HttpException('message', 400)])(
+        'should log the error: %j',
+        async (error) => {
+          jest
+            .spyOn(next, 'handle')
+            .mockReturnValueOnce(throwError(() => error));
 
-        const loggerSpy = jest.spyOn(logger, 'warn');
+          const loggerSpy = jest.spyOn(logger, 'error');
 
-        await firstValueFrom(underTest.intercept({} as any, next));
+          await firstValueFrom(underTest.intercept({} as any, next));
 
-        expect(loggerSpy).toHaveBeenCalledTimes(1);
-      });
+          expect(loggerSpy).toHaveBeenCalledTimes(1);
+        },
+      );
     });
 
     describe('when the controller does not throw an error', () => {
