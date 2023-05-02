@@ -6,7 +6,7 @@ import {
   OnApplicationShutdown,
 } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { catchError } from 'rxjs';
+import { catchError, timeout } from 'rxjs';
 import { PUB_SUB_CLIENT } from './pub-sub.provider';
 import { PublishMessageOptions, SendMessageOptions } from './types';
 
@@ -24,6 +24,7 @@ export class PubSubService implements OnApplicationShutdown {
 
   publishMessage({ payload, pattern }: PublishMessageOptions) {
     return this.pubSubClient.emit<void>(pattern, payload).pipe(
+      timeout(10_000),
       catchError((error) => {
         this.logger.error(
           `[${PubSubService.name}: ${this.publishMessage.name}] ${error.message}`,
@@ -37,6 +38,7 @@ export class PubSubService implements OnApplicationShutdown {
 
   sendMessage<TResponse = unknown>({ payload, pattern }: SendMessageOptions) {
     return this.pubSubClient.send<TResponse>(pattern, payload).pipe(
+      timeout(10_000),
       catchError((error) => {
         this.logger.error(
           `[${PubSubService.name}: ${this.publishMessage.name}] ${error.message}`,
