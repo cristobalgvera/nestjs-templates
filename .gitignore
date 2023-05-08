@@ -35,4 +35,5 @@ lerna-debug.log*
 !.vscode/extensions.json
 
 # Misc
-.env
+.env*
+!.env.example
