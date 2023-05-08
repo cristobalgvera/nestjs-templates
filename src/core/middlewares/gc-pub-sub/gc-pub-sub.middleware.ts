@@ -2,6 +2,16 @@ import { Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import { Request } from 'express';
 import { eventPatternSchema, RequestBody, requestBodySchema } from './schema';
 
+/**
+ * This middleware helps to properly parse the data send out by the
+ * GCP Pub/Sub.
+ *
+ * It will check if the data comes with the format defined by Google,
+ * extract the relevant data on it (the one that the client sends),
+ * decode it from base64, and parse it as JSON.
+ *
+ * @see https://cloud.google.com/pubsub/docs/push#receive_push
+ */
 @Injectable()
 export class GCPubSubMiddleware implements NestMiddleware<Request> {
   constructor(private readonly logger: Logger) {}
