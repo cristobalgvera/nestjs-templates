@@ -1,4 +1,5 @@
 import { EnvironmentModule } from '@core/environment';
+import { GenericErrorFilter } from '@core/exception-filters';
 import { GCPubSubMiddleware } from '@core/middlewares';
 import {
   Logger,
@@ -7,10 +8,11 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [EnvironmentModule],
-  providers: [Logger],
+  providers: [Logger, { provide: APP_FILTER, useClass: GenericErrorFilter }],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
