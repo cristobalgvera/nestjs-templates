@@ -44,34 +44,21 @@ In order to properly use this service, follow the steps:
 
 1. Create a controller within a HTTP `POST` endpoint on it.
 
-   - Attach the `ErrorInterceptor` in that route.
-
-     ```ts
-     import { ErrorInterceptor } from '@core/interceptors';
-     import { UseInterceptors, Controller, Post, Body } from '@nestjs/common';
-     // Your imports...
-
-     @Controller({
-       path: 'controller-path',
-       version: '1',
-     })
-     export class YourController {
-       // Your controller implementation...
-
-       @Post('method-path')
-       @UseInterceptors(ErrorInterceptor) // <-- NOTE THIS
-       usefulMethod(@Body() pubSubDataDto: PubSubDataDto) {
-         // Your method implementation...
-       }
-     }
-     ```
-
-   - Optionally, you can set a [global interceptor](https://docs.nestjs.com/interceptors#binding-interceptors)
-     (not recommended in this case).
-
 1. Set the full route _(http://your-service:1234/your-path)_ into the push endpoint
    defined in the push subscription. Preferably launch your services inside a Docker
    network for an easier setup.
+
+### Workaround for issues with the GCP Pub/Sub
+
+The GCP Pub/Sub service set in push mode has some special characteristics that need
+to be followed in order to work with it. The relevant ones (that affects this project)
+are the [format that will be send out to the push endpoint](https://cloud.google.com/pubsub/docs/push#receive_push)
+and the requirement of [certain HTTP response codes](https://cloud.google.com/pubsub/docs/push#receive_push).
+
+Those are handled properly using a middleware and an exception filter and are applied
+globally in the `AppModule`. If you want to override this implementation, feel free
+to change it and apply the middleware and exception filter just for the route/s you
+are using. They are applied globally just to simplify the initial setup.
 
 ## Running the app
 
