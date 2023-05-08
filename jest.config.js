@@ -13,6 +13,8 @@ const COVERAGE_FILE_SUFFIX = [
   'helper',
   'interceptor',
   'middleware',
+  'filter',
+  'pipe',
 ];
 
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
