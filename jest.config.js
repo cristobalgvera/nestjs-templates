@@ -30,7 +30,7 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/test/env.setup.js'],
   testEnvironment: 'node',
   // Helps to use aliases in tsconfig (@module/*)
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths ?? {}, {
     prefix: '<rootDir>',
   }),
 };
