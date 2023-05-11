@@ -6,7 +6,7 @@ export const environmentSchema = Joi.object<Environment, true>({
     .valid('development', 'production', 'test')
     .default('development'),
   PORT: Joi.number().default(8080),
-  ENABLE_SWAGGER: Joi.boolean().default(true),
+  IS_SWAGGER_ENABLED: Joi.boolean().default(true),
 
   /**
    * You can validate any object or array following Joi validation.

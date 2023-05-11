@@ -5,7 +5,7 @@ describe('EnvironmentSchema', () => {
   const validEnvironment: Environment = {
     NODE_ENV: 'development',
     PORT: 3000,
-    ENABLE_SWAGGER: true,
+    IS_SWAGGER_ENABLED: true,
     IP_WHITELIST_EXAMPLE: ['127.0.0.1'],
   };
 
@@ -16,8 +16,8 @@ describe('EnvironmentSchema', () => {
       { NODE_ENV: 'test' },
       { NODE_ENV: undefined },
       { PORT: undefined },
-      { ENABLE_SWAGGER: undefined },
-      { ENABLE_SWAGGER: false },
+      { IS_SWAGGER_ENABLED: undefined },
+      { IS_SWAGGER_ENABLED: false },
       { IP_WHITELIST_EXAMPLE: [] },
       {
         IP_WHITELIST_EXAMPLE: [
@@ -44,7 +44,7 @@ describe('EnvironmentSchema', () => {
     it.each<Partial<Record<keyof Environment, unknown>>>([
       { NODE_ENV: 'invalid' },
       { PORT: 'invalid' },
-      { ENABLE_SWAGGER: 'invalid' },
+      { IS_SWAGGER_ENABLED: 'invalid' },
       { IP_WHITELIST_EXAMPLE: undefined },
       { IP_WHITELIST_EXAMPLE: ['invalid-ip'] },
       {
