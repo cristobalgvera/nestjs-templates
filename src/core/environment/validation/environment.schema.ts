@@ -6,7 +6,7 @@ const productionEnvironmentSchema: Joi.StrictSchemaMap<Environment> = {
     .valid('development', 'production', 'test')
     .default('development'),
   PORT: Joi.number().default(8080),
-  ENABLE_SWAGGER: Joi.boolean().default(true),
+  IS_SWAGGER_ENABLED: Joi.boolean().default(true),
   PUB_SUB_PROJECT_ID: Joi.string().required(),
   PUB_SUB_TOPIC: Joi.string().required(),
   PUB_SUB_PATTERN: Joi.string().required(),

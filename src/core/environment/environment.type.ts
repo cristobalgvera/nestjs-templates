@@ -3,7 +3,7 @@ import { Transform } from 'class-transformer';
 export class Environment {
   NODE_ENV: 'development' | 'production' | 'test';
   PORT: number;
-  ENABLE_SWAGGER: boolean;
+  IS_SWAGGER_ENABLED: boolean;
   PUB_SUB_PROJECT_ID: string;
   PUB_SUB_EMULATOR_HOST?: string;
   PUB_SUB_SUBSCRIPTION?: string;
