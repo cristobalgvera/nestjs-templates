@@ -1,7 +1,7 @@
 export class Environment {
   NODE_ENV: 'development' | 'production' | 'test';
   PORT: number;
-  ENABLE_SWAGGER: boolean;
+  IS_SWAGGER_ENABLED: boolean;
   DB_HOST?: string;
   DB_NAME: string;
   DB_PASSWORD: string;
