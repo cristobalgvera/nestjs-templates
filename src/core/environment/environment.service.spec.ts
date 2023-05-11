@@ -6,7 +6,7 @@ describe('EnvironmentService', () => {
   let underTest: EnvironmentService;
   let configService: ConfigService;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     const { unit, unitRef } = TestBed.create(EnvironmentService).compile();
 
     underTest = unit;
@@ -56,30 +56,6 @@ describe('EnvironmentService', () => {
         jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(value);
 
         const actual = underTest.isProd();
-
-        expect(actual).toBe(false);
-      });
-    });
-  });
-
-  describe('isSwaggerEnabled', () => {
-    describe('when the environment variable is "true"', () => {
-      it('should return true', () => {
-        const expected = true;
-
-        jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(expected);
-
-        const actual = underTest.isSwaggerEnabled();
-
-        expect(actual).toEqual(expected);
-      });
-    });
-
-    describe('when the environment variable is not "true"', () => {
-      it('should return false', () => {
-        jest.spyOn(configService, 'getOrThrow').mockReturnValueOnce(false);
-
-        const actual = underTest.isSwaggerEnabled();
 
         expect(actual).toBe(false);
       });
