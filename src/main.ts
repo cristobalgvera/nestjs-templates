@@ -33,31 +33,26 @@ async function bootstrap() {
     }),
   );
 
+  if (environmentService.get('IS_SWAGGER_ENABLED')) enableSwagger(app);
+
   const logger = app.get(Logger);
   const port = environmentService.get('PORT');
-
-  if (environmentService.isSwaggerEnabled()) enableSwagger(app, port, logger);
 
   await app.listen(port, () => {
     logger.log(`Listening on port ${port}`);
   });
 }
 
-function enableSwagger(app: INestApplication, port: number, logger: Logger) {
+function enableSwagger(app: INestApplication) {
   const SWAGGER_PATH = 'api-doc';
 
   const config = new DocumentBuilder()
-    // TODO: add proper service name
+    // TODO: Add proper service name
     .setTitle('SERVICE_NAME')
-    .setDescription('SERVICE_DESCRIPTION')
-    .setVersion('1.0')
     .setExternalDoc('Postman collection', `${SWAGGER_PATH}-json`)
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-
-  logger.log(`[Swagger URL]: http://localhost:${port}/${SWAGGER_PATH}`);
-  logger.log(`[Postman JSON]: http://localhost:${port}/${SWAGGER_PATH}-json`);
 
   SwaggerModule.setup(SWAGGER_PATH, app, document);
 }
