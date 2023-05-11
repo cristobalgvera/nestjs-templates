@@ -13,7 +13,7 @@ import { Environment } from './environment.type';
           .valid('development', 'production', 'test')
           .default('development'),
         PORT: Joi.number().default(8080),
-        ENABLE_SWAGGER: Joi.boolean().default(true),
+        IS_SWAGGER_ENABLED: Joi.boolean().default(true),
       }),
     }),
   ],

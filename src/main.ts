@@ -33,7 +33,7 @@ async function bootstrap() {
     }),
   );
 
-  if (environmentService.isSwaggerEnabled()) enableSwagger(app);
+  if (environmentService.get('IS_SWAGGER_ENABLED')) enableSwagger(app);
 
   const logger = app.get(Logger);
   const port = environmentService.get('PORT');
