@@ -12,10 +12,6 @@ export class EnvironmentService {
     return this.configService.getOrThrow(key);
   }
 
-  isSwaggerEnabled(): boolean {
-    return this.get('ENABLE_SWAGGER');
-  }
-
   isProd(): boolean {
     return this.get('NODE_ENV') === 'production';
   }
