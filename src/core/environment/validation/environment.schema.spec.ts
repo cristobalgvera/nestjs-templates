@@ -5,7 +5,7 @@ describe('EnvironmentSchema', () => {
   const commonEnvironment: Environment = {
     NODE_ENV: 'development',
     PORT: 3000,
-    ENABLE_SWAGGER: true,
+    IS_SWAGGER_ENABLED: true,
     DB_NAME: 'db-name',
     DB_PASSWORD: 'db-password',
     DB_USERNAME: 'db-username',
@@ -42,7 +42,7 @@ describe('EnvironmentSchema', () => {
       describe('when environment is valid', () => {
         it.each<Partial<Environment>>([
           { PORT: undefined },
-          { ENABLE_SWAGGER: undefined },
+          { IS_SWAGGER_ENABLED: undefined },
         ])(
           'should properly validate if environment has %s',
           (partialEnvironment) => {
@@ -62,6 +62,7 @@ describe('EnvironmentSchema', () => {
         it.each<Partial<Record<keyof Environment, unknown>>>([
           { NODE_ENV: 'invalid' },
           { PORT: 'invalid' },
+          { IS_SWAGGER_ENABLED: 'invalid' },
           { DB_PORT: undefined },
           { DB_PORT: 'invalid' },
           { DB_USERNAME: undefined },
