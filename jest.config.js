@@ -1,31 +1,13 @@
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig');
 
-const COVERAGE_FILE_SUFFIX = [
-  'service',
-  'controller',
-  'handler',
-  'util',
-  'provider',
-  'schema',
-  'guard',
-  'validation',
-  'helper',
-  'interceptor',
-  'middleware',
-  'filter',
-  'pipe',
-];
-
 /** @type {import('ts-jest/dist/types').JestConfigWithTsJest} */
 module.exports = {
   rootDir: '.',
   moduleFileExtensions: ['js', 'json', 'ts'],
   testRegex: '.*\\.spec\\.ts$',
-  transform: {
-    '^.+\\.ts$': 'ts-jest',
-  },
-  collectCoverageFrom: [`**/*.(${COVERAGE_FILE_SUFFIX.join('|')}).ts`],
+  transform: { '^.+\\.ts$': 'ts-jest' },
+  collectCoverageFrom: ['src/**/*.*.ts', `!src/**/*.(module|dto|entity).ts`],
   coverageDirectory: './coverage',
   setupFilesAfterEnv: ['<rootDir>/test/env.setup.js'],
   testEnvironment: 'node',
