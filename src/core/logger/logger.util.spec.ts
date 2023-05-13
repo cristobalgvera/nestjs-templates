@@ -1,26 +1,31 @@
 import { createMock } from '@golevelup/ts-jest';
 import { LoggingWinston } from '@google-cloud/logging-winston';
-import { Logger, createLogger, format, transports } from 'winston';
+import { LoggerService } from '@nestjs/common';
+import { WinstonModule } from 'nest-winston';
+import { format, transports } from 'winston';
 import * as underTest from './logger.util';
 
 jest.mock('@google-cloud/logging-winston');
+jest.mock('nest-winston');
 jest.mock('winston', () => ({
-  createLogger: jest.fn(),
   transports: createMock<typeof transports>(),
   format: createMock<typeof format>(),
 }));
 
+const mockWinstonModule = jest.mocked(WinstonModule);
 const mockLoggingWinston = jest.mocked(LoggingWinston);
-const mockCreateLogger = jest.mocked(createLogger);
 const mockTransport = jest.mocked(transports);
 
 describe('createWinstonLogger', () => {
-  let logger: Logger;
+  let loggerService: LoggerService;
+  let createLoggerSpy: jest.SpyInstance;
 
   beforeEach(() => {
-    logger = createMock();
+    loggerService = createMock();
 
-    mockCreateLogger.mockReturnValue(logger);
+    createLoggerSpy = jest
+      .spyOn(mockWinstonModule, 'createLogger')
+      .mockReturnValue(loggerService as any);
   });
 
   afterEach(() => {
@@ -30,7 +35,9 @@ describe('createWinstonLogger', () => {
   it('should return the logger', () => {
     const expected = { foo: 'bar' };
 
-    mockCreateLogger.mockReturnValueOnce(expected as any);
+    jest
+      .spyOn(mockWinstonModule, 'createLogger')
+      .mockReturnValueOnce(expected as any);
 
     const actual = underTest.createWinstonLogger(true, {} as any);
 
@@ -42,10 +49,10 @@ describe('createWinstonLogger', () => {
 
     underTest.createWinstonLogger(true, expected as any);
 
-    expect(mockCreateLogger).toHaveBeenCalledWith(
-      expect.objectContaining<Parameters<typeof createLogger>[0]>({
-        defaultMeta: expected,
-      }),
+    expect(createLoggerSpy).toHaveBeenCalledWith(
+      expect.objectContaining<Parameters<typeof WinstonModule.createLogger>[0]>(
+        { defaultMeta: expected },
+      ),
     );
   });
 
@@ -57,10 +64,10 @@ describe('createWinstonLogger', () => {
 
       underTest.createWinstonLogger(true, {} as any);
 
-      expect(mockCreateLogger).toHaveBeenCalledWith(
-        expect.objectContaining<Parameters<typeof createLogger>[0]>({
-          transports: expect.arrayContaining([expected]),
-        }),
+      expect(createLoggerSpy).toHaveBeenCalledWith(
+        expect.objectContaining<
+          Parameters<typeof WinstonModule.createLogger>[0]
+        >({ transports: expect.arrayContaining([expected]) }),
       );
     });
   });
@@ -73,10 +80,10 @@ describe('createWinstonLogger', () => {
 
       underTest.createWinstonLogger(false, {} as any);
 
-      expect(mockCreateLogger).toHaveBeenCalledWith(
-        expect.objectContaining<Parameters<typeof createLogger>[0]>({
-          transports: expect.arrayContaining([expected]),
-        }),
+      expect(createLoggerSpy).toHaveBeenCalledWith(
+        expect.objectContaining<
+          Parameters<typeof WinstonModule.createLogger>[0]
+        >({ transports: expect.arrayContaining([expected]) }),
       );
     });
   });
