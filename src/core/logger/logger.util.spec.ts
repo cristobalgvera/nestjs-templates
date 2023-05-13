@@ -16,7 +16,7 @@ const mockWinstonModule = jest.mocked(WinstonModule);
 const mockLoggingWinston = jest.mocked(LoggingWinston);
 const mockTransport = jest.mocked(transports);
 
-describe('createWinstonLogger', () => {
+describe('createCustomLogger', () => {
   let loggerService: LoggerService;
   let createLoggerSpy: jest.SpyInstance;
 
@@ -39,7 +39,7 @@ describe('createWinstonLogger', () => {
       .spyOn(mockWinstonModule, 'createLogger')
       .mockReturnValueOnce(expected as any);
 
-    const actual = underTest.createWinstonLogger(true, {} as any);
+    const actual = underTest.createCustomLogger(true, {} as any);
 
     expect(actual).toBe(expected);
   });
@@ -47,7 +47,7 @@ describe('createWinstonLogger', () => {
   it('should create the logger with the provided metadata', () => {
     const expected = { service: 'service', extra: 'extra' };
 
-    underTest.createWinstonLogger(true, expected as any);
+    underTest.createCustomLogger(true, expected as any);
 
     expect(createLoggerSpy).toHaveBeenCalledWith(
       expect.objectContaining<Parameters<typeof WinstonModule.createLogger>[0]>(
@@ -62,7 +62,7 @@ describe('createWinstonLogger', () => {
 
       mockLoggingWinston.mockReturnValueOnce(expected as any);
 
-      underTest.createWinstonLogger(true, {} as any);
+      underTest.createCustomLogger(true, {} as any);
 
       expect(createLoggerSpy).toHaveBeenCalledWith(
         expect.objectContaining<
@@ -78,7 +78,7 @@ describe('createWinstonLogger', () => {
 
       jest.spyOn(mockTransport, 'Console').mockReturnValueOnce(expected as any);
 
-      underTest.createWinstonLogger(false, {} as any);
+      underTest.createCustomLogger(false, {} as any);
 
       expect(createLoggerSpy).toHaveBeenCalledWith(
         expect.objectContaining<

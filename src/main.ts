@@ -1,5 +1,5 @@
 import { EnvironmentService } from '@core/environment';
-import { createWinstonLogger as createWinstonLogger } from '@core/logger';
+import { createCustomLogger } from '@core/logger';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -24,7 +24,7 @@ async function bootstrap() {
   );
 
   app.useLogger(
-    createWinstonLogger(environmentService.isProd(), {
+    createCustomLogger(environmentService.isProd(), {
       // TODO: Add proper service name
       service: 'SERVICE_NAME',
     }),

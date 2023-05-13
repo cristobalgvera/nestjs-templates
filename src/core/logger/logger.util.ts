@@ -5,7 +5,7 @@ import { format, transports } from 'winston';
 
 type DefaultMeta = Readonly<{ service: string } & Record<string, unknown>>;
 
-export function createWinstonLogger(
+export function createCustomLogger(
   isProd: boolean,
   defaultMeta: DefaultMeta,
 ): LoggerService {
