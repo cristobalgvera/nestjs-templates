@@ -3,7 +3,10 @@ import { createLogger, format, Logger, transports } from 'winston';
 
 type DefaultMeta = Readonly<{ service: string } & Record<string, unknown>>;
 
-export function getLogger(isProd: boolean, defaultMeta: DefaultMeta): Logger {
+export function createWinstonLogger(
+  isProd: boolean,
+  defaultMeta: DefaultMeta,
+): Logger {
   const transport = isProd
     ? new LoggingWinston()
     : new transports.Console({ format: format.simple() });
