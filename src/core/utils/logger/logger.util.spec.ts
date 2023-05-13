@@ -1,64 +1,86 @@
+import { createMock } from '@golevelup/ts-jest';
 import { LoggingWinston } from '@google-cloud/logging-winston';
-import { createLogger, transports } from 'winston';
-import { getLogger } from './logger.util';
+import { Logger, createLogger, format, transports } from 'winston';
+import * as underTest from './logger.util';
 
-const loggerMock = {
-  add: jest.fn(),
-};
-
-jest.mock('@google-cloud/logging-winston', () => ({
-  LoggingWinston: jest.fn(),
-}));
-
+jest.mock('@google-cloud/logging-winston');
 jest.mock('winston', () => ({
-  createLogger: jest.fn().mockImplementation(() => loggerMock),
-  transports: {
-    Console: jest.fn().mockImplementation(() => ({})),
-  },
-  format: {
-    combine: jest.fn(),
-    timestamp: jest.fn(),
-    json: jest.fn(),
-    colorize: jest.fn(),
-    simple: jest.fn(),
-  },
+  createLogger: jest.fn(),
+  transports: createMock<typeof transports>(),
+  format: createMock<typeof format>(),
 }));
+
+const mockLoggingWinston = jest.mocked(LoggingWinston);
+const mockCreateLogger = jest.mocked(createLogger);
+const mockTransport = jest.mocked(transports);
 
 describe('Logger', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
   describe('getLogger', () => {
-    it('should create a logger with the provided metadata', () => {
+    let logger: Logger;
+
+    beforeEach(() => {
+      logger = createMock();
+
+      mockCreateLogger.mockReturnValue(logger);
+    });
+
+    it('should return the logger', () => {
+      const expected = { foo: 'bar' };
+
+      mockCreateLogger.mockReturnValueOnce(expected as any);
+
+      const actual = underTest.getLogger(true, {} as any);
+
+      expect(actual).toBe(expected);
+    });
+
+    it('should create the logger with the provided metadata', () => {
       const expected = { service: 'service', extra: 'extra' };
 
-      getLogger(true, expected as any);
+      underTest.getLogger(true, expected as any);
 
-      expect(createLogger).toHaveBeenCalledWith(
-        expect.objectContaining({ defaultMeta: expected }),
+      expect(mockCreateLogger).toHaveBeenCalledWith(
+        expect.objectContaining<Parameters<typeof createLogger>[0]>({
+          defaultMeta: expected,
+        }),
       );
     });
 
     describe('when isProd is true', () => {
-      it('should add LoggingWinston to logger instance', () => {
-        expect.assertions(2);
+      it('should include LoggingWinston to the transports', () => {
+        const expected = { foo: 'bar' };
 
-        getLogger(true, {} as any);
+        mockLoggingWinston.mockReturnValueOnce(expected as any);
 
-        expect(LoggingWinston).toHaveBeenCalledTimes(1);
-        expect(loggerMock.add).toHaveBeenCalledTimes(1);
+        underTest.getLogger(true, {} as any);
+
+        expect(mockCreateLogger).toHaveBeenCalledWith(
+          expect.objectContaining<Parameters<typeof createLogger>[0]>({
+            transports: expect.arrayContaining([expected]),
+          }),
+        );
       });
     });
 
     describe('when isProd is false', () => {
-      it('should add Console to logger instance', () => {
-        expect.assertions(2);
+      it('should add transports.Console to the logger instance', () => {
+        const expected = { foo: 'bar' };
 
-        getLogger(false, {} as any);
+        jest
+          .spyOn(mockTransport, 'Console')
+          .mockReturnValueOnce(expected as any);
 
-        expect(transports.Console).toHaveBeenCalledTimes(1);
-        expect(loggerMock.add).toHaveBeenCalledTimes(1);
+        underTest.getLogger(false, {} as any);
+
+        expect(mockCreateLogger).toHaveBeenCalledWith(
+          expect.objectContaining<Parameters<typeof createLogger>[0]>({
+            transports: expect.arrayContaining([expected]),
+          }),
+        );
       });
     });
   });
