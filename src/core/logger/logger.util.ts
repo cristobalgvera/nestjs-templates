@@ -1,17 +1,19 @@
 import { LoggingWinston } from '@google-cloud/logging-winston';
-import { createLogger, format, Logger, transports } from 'winston';
+import { LoggerService } from '@nestjs/common';
+import { WinstonModule } from 'nest-winston';
+import { format, transports } from 'winston';
 
 type DefaultMeta = Readonly<{ service: string } & Record<string, unknown>>;
 
-export function createWinstonLogger(
+export function createCustomLogger(
   isProd: boolean,
   defaultMeta: DefaultMeta,
-): Logger {
+): LoggerService {
   const transport = isProd
     ? new LoggingWinston()
     : new transports.Console({ format: format.simple() });
 
-  return createLogger({
+  return WinstonModule.createLogger({
     defaultMeta,
     transports: [transport],
     level: 'info',
