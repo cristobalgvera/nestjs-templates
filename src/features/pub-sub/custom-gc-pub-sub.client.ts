@@ -20,7 +20,7 @@ export class CustomGCPubSubClient extends GCPubSubClient {
   async connect(): Promise<PubSub> {
     const pubSub = await super.connect();
 
-    this.DEVELOPMENT_modifySubscriptionPushConfig();
+    await this.DEVELOPMENT_modifySubscriptionPushConfig();
 
     return pubSub;
   }
