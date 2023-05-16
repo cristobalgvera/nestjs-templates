@@ -1,3 +1,4 @@
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -12,6 +13,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'plugin:jest/recommended',
     'plugin:jest/style',
+    'plugin:sonarjs/recommended',
   ],
   root: true,
   env: {
@@ -24,5 +26,23 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-floating-promises': 'error',
+    '@typescript-eslint/no-misused-promises': 'error',
+    'no-console': 'error',
   },
+  overrides: [
+    {
+      files: ['*.spec.ts'],
+      rules: {
+        'sonarjs/no-identical-functions': 'off',
+        'sonarjs/no-duplicate-string': 'off',
+      },
+    },
+    {
+      files: ['main.ts'],
+      rules: {
+        '@typescript-eslint/no-floating-promises': 'off',
+      },
+    },
+  ],
 };
