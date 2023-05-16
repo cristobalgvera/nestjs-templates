@@ -42,12 +42,12 @@ describe('RedisProvider', () => {
 
       let environmentService: EnvironmentService;
 
-      beforeEach(() => {
+      beforeEach(async () => {
         environmentService = createMock<EnvironmentService>({
           get: (key) => environment[key],
         });
 
-        actual.useFactory(environmentService);
+        await actual.useFactory(environmentService);
       });
 
       describe('when instantiate the redis client', () => {
