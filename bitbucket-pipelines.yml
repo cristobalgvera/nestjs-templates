@@ -31,6 +31,7 @@ definitions:
                 -Dsonar.exclusions=\"$SCAN_EXCLUDE_FILES\"
                 -Dsonar.javascript.lcov.reportPaths=\"$SCAN_COVERAGE_REPORT\"
                 -Dsonar.coverage.exclusions=\"$SCAN_COVERAGE_EXCLUSIONS\"
+                -Dsonar.cpd.exclusions=\"$SCAN_COVERAGE_EXCLUSIONS\"
     - step: &check-quality-gate-sonarcloud
         name: Check the Quality Gate on SonarCloud
         caches:
