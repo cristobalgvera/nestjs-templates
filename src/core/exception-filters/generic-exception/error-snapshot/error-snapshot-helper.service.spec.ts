@@ -1,7 +1,6 @@
 import { BadRequestException, HttpStatus } from '@nestjs/common';
 import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
 import { TestBed } from '@automock/jest';
-import { createMock } from '@golevelup/ts-jest';
 import { CanonicalErrorType } from './types';
 
 describe('ErrorSnapshotHelperService', () => {
@@ -30,23 +29,22 @@ describe('ErrorSnapshotHelperService', () => {
   describe('getDescription', () => {
     describe.each<{ exception: Error; expected: string }>([
       { exception: new Error('message'), expected: 'message' },
-      { exception: new Error(), expected: '' },
-      { exception: new BadRequestException(), expected: 'Bad Request' },
       { exception: new BadRequestException('message'), expected: 'message' },
-    ])('when the exception is $exception', ({ exception, expected }) => {
-      it(`should return ${expected}`, () => {
-        const actual = underTest.getDescription(exception);
+    ])(
+      'when the exception is $exception and does not have a response object',
+      ({ exception, expected }) => {
+        it(`should return ${expected}`, () => {
+          const actual = underTest.getDescription(exception);
 
-        expect(actual).toEqual(expected);
-      });
-    });
-
-    describe('when HttpException has no message on it', () => {
-      it('should return the exception message', () => {
-        const exception = createMock<BadRequestException>({
-          message: 'expected',
-          getResponse: () => ({}),
+          expect(actual).toEqual(expected);
         });
+      },
+    );
+
+    describe('when HttpException has a message field in the response object', () => {
+      it('should return the message', () => {
+        const exception = new BadRequestException();
+        exception.getResponse = () => ({ message: 'expected' });
 
         const actual = underTest.getDescription(exception);
 

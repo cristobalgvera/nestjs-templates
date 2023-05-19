@@ -1,6 +1,7 @@
 import { ErrorSnapshotService } from './error-snapshot.service';
 import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
 import { TestBed } from '@automock/jest';
+import { ErrorResponseDto } from './dto';
 
 describe('ErrorSnapshotService', () => {
   let underTest: ErrorSnapshotService;
@@ -59,6 +60,29 @@ describe('ErrorSnapshotService', () => {
       underTest.getSnapshot(expected as any, 'exception' as any);
 
       expect(helperServiceSpy).toHaveBeenCalledWith(expected);
+    });
+
+    describe('when the HTTP status code is not found', () => {
+      let actual: ErrorResponseDto;
+
+      beforeEach(() => {
+        jest
+          .spyOn(helperService, 'getCode')
+          .mockReturnValueOnce(undefined as any);
+
+        actual = underTest.getSnapshot(
+          'http_status' as any,
+          'exception' as any,
+        );
+      });
+
+      it('should return the CanonicalError code field as undefined', () => {
+        expect(actual.Result.CanonicalError.code).toBeUndefined();
+      });
+
+      it('should return the SourceError code field as undefined', () => {
+        expect(actual.Result.SourceError.code).toBeUndefined();
+      });
     });
 
     it('should get the description using the correct parameters', () => {
