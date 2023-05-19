@@ -1,18 +1,88 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { ErrorSnapshotService } from './error-snapshot.service';
+import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
+import { TestBed } from '@automock/jest';
 
 describe('ErrorSnapshotService', () => {
-  let service: ErrorSnapshotService;
+  let underTest: ErrorSnapshotService;
+  let helperService: ErrorSnapshotHelperService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [ErrorSnapshotService],
-    }).compile();
+  beforeEach(() => {
+    const { unit, unitRef } = TestBed.create(ErrorSnapshotService).compile();
 
-    service = module.get<ErrorSnapshotService>(ErrorSnapshotService);
+    underTest = unit;
+    helperService = unitRef.get(ErrorSnapshotHelperService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  describe('getSnapshot', () => {
+    beforeEach(() => {
+      jest.spyOn(helperService, 'getCode').mockReturnValue(400 as any);
+
+      jest
+        .spyOn(helperService, 'getDescription')
+        .mockReturnValue('description' as any);
+
+      jest.spyOn(helperService, 'getType').mockReturnValue('type' as any);
+    });
+
+    it('should return the snapshot', () => {
+      const actual = underTest.getSnapshot(
+        'http_status' as any,
+        'exception' as any,
+      );
+
+      expect(actual).toMatchInlineSnapshot(`
+        {
+          "Result": {
+            "CanonicalError": {
+              "code": "400",
+              "description": "description",
+              "type": "type",
+            },
+            "SourceError": {
+              "ErrorSourceDetail": {
+                "source": "CHK",
+              },
+              "code": "400",
+              "description": "description",
+            },
+            "status": "ERROR",
+          },
+        }
+      `);
+    });
+
+    it('should get the code using the correct parameters', () => {
+      const expected = 'http_status';
+
+      const helperServiceSpy = jest.spyOn(helperService, 'getCode');
+
+      underTest.getSnapshot(expected as any, 'exception' as any);
+
+      expect(helperServiceSpy).toHaveBeenCalledWith(expected);
+    });
+
+    it('should get the description using the correct parameters', () => {
+      const expected = 'exception';
+
+      const helperServiceSpy = jest.spyOn(helperService, 'getDescription');
+
+      underTest.getSnapshot('http_status' as any, expected as any);
+
+      expect(helperServiceSpy).toHaveBeenCalledWith(expected);
+    });
+
+    it('should get the type using the correct parameters', () => {
+      const expectedStatus = 'http_status';
+      const expectedException = 'exception';
+
+      const helperServiceSpy = jest.spyOn(helperService, 'getType');
+
+      underTest.getSnapshot(expectedStatus as any, expectedException as any);
+
+      expect(helperServiceSpy).toHaveBeenCalledWith(
+        expectedStatus,
+        expectedException,
+      );
+    });
   });
 });
