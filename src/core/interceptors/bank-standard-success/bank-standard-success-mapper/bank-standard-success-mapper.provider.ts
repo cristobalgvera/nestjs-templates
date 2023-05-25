@@ -13,7 +13,7 @@ export class BankStandardSuccessMapperProvider {
         return {
           Result: { status: ResultStatus.OK, description: '' },
           [`Response${serviceDomainNameCode}`]: data,
-        } as any; // TODO: Find a proper way to type this
+        } as any; // FIX: Find a proper way to type this
       },
     };
   }
