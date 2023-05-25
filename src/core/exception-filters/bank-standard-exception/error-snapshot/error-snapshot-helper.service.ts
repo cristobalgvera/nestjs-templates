@@ -13,15 +13,15 @@ export class ErrorSnapshotHelperService {
   ]);
 
   getType(httpStatus: HttpStatus, exception: Error): CanonicalErrorType {
-    if (!isHttpException(exception)) return 'TEC';
+    if (!isHttpException(exception)) return CanonicalErrorType.TEC;
 
     if (ErrorSnapshotHelperService.SEG_HTTP_STATUS_CODES.has(httpStatus))
-      return 'SEG';
+      return CanonicalErrorType.SEG;
 
     if (ErrorSnapshotHelperService.NEG_HTTP_STATUS_CODES.has(httpStatus))
-      return 'NEG';
+      return CanonicalErrorType.NEG;
 
-    return 'TEC';
+    return CanonicalErrorType.TEC;
   }
 
   getCode(httpStatus: HttpStatus) {

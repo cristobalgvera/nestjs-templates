@@ -1,6 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { BankStandardErrorResponseDto } from './dto';
 import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
+import { ErrorSourceDetailSource, ResultStatus } from './constants';
 
 @Injectable()
 export class ErrorSnapshotService {
@@ -16,12 +17,12 @@ export class ErrorSnapshotService {
 
     return {
       Result: {
-        status: 'ERROR',
+        status: ResultStatus.ERROR,
         CanonicalError: { code, description, type },
         SourceError: {
           code,
           description,
-          ErrorSourceDetail: { source: 'CHK' },
+          ErrorSourceDetail: { source: ErrorSourceDetailSource.CHK },
         },
       },
     };

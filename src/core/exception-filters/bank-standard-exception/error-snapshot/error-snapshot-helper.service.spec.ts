@@ -62,19 +62,31 @@ describe('ErrorSnapshotHelperService', () => {
 
   describe('getType', () => {
     describe('when the exception is not a HttpException', () => {
-      it('should return TEC', () => {
+      it(`should return ${CanonicalErrorType.TEC}`, () => {
         const actual = underTest.getType('http_status' as any, new Error());
 
-        expect(actual).toBe('TEC');
+        expect(actual).toBe(CanonicalErrorType.TEC);
       });
     });
 
     describe('when the exception is a HttpException', () => {
       describe.each<{ httpStatus: HttpStatus; expected: CanonicalErrorType }>([
-        { httpStatus: HttpStatus.UNAUTHORIZED, expected: 'SEG' },
-        { httpStatus: HttpStatus.FORBIDDEN, expected: 'SEG' },
-        { httpStatus: HttpStatus.INTERNAL_SERVER_ERROR, expected: 'NEG' },
-        { httpStatus: HttpStatus.BAD_REQUEST, expected: 'TEC' },
+        {
+          httpStatus: HttpStatus.UNAUTHORIZED,
+          expected: CanonicalErrorType.SEG,
+        },
+        {
+          httpStatus: HttpStatus.FORBIDDEN,
+          expected: CanonicalErrorType.SEG,
+        },
+        {
+          httpStatus: HttpStatus.INTERNAL_SERVER_ERROR,
+          expected: CanonicalErrorType.NEG,
+        },
+        {
+          httpStatus: HttpStatus.BAD_REQUEST,
+          expected: CanonicalErrorType.TEC,
+        },
       ])('when the HTTP status is $httpStatus', ({ httpStatus, expected }) => {
         it(`should return ${expected}`, () => {
           const actual = underTest.getType(

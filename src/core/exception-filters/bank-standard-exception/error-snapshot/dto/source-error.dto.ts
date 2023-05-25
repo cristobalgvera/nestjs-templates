@@ -1,7 +1,9 @@
-export type SourceErrorDto = {
+import { ErrorSourceDetailSource } from '../constants';
+
+export type SourceErrorDto = Readonly<{
   code?: string;
   description: string | string[];
-  ErrorSourceDetail: {
-    source: 'CHK';
-  };
-};
+  ErrorSourceDetail: Readonly<{
+    source: ErrorSourceDetailSource;
+  }>;
+}>;
