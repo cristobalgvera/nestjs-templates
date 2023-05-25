@@ -29,28 +29,35 @@ describe('ErrorSnapshotHelperService', () => {
   describe('getDescription', () => {
     describe.each<{ exception: Error; expected: string }>([
       { exception: new Error('message'), expected: 'message' },
-      { exception: new BadRequestException('message'), expected: 'message' },
+    ])('when the exception is $exception', ({ exception, expected }) => {
+      it(`should return ${expected}`, () => {
+        const actual = underTest.getDescription(exception);
+
+        expect(actual).toEqual(expected);
+      });
+    });
+
+    describe.each<{ message: unknown; expected: unknown }>([
+      { message: 'expected', expected: 'expected' },
+      {
+        message: ['expected_1', 'expected_2'],
+        expected: ['expected_1', 'expected_2'],
+      },
+      { message: 1234, expected: 'Bad Request' },
+      { message: undefined, expected: 'Bad Request' },
     ])(
-      'when the exception is $exception and does not have a response object',
-      ({ exception, expected }) => {
+      'when the exception is HttpException with message $message',
+      ({ message, expected }) => {
         it(`should return ${expected}`, () => {
+          const exception = new BadRequestException();
+          exception.getResponse = () => ({ message });
+
           const actual = underTest.getDescription(exception);
 
           expect(actual).toEqual(expected);
         });
       },
     );
-
-    describe('when HttpException has a message field in the response object', () => {
-      it('should return the message', () => {
-        const exception = new BadRequestException();
-        exception.getResponse = () => ({ message: 'expected' });
-
-        const actual = underTest.getDescription(exception);
-
-        expect(actual).toMatchInlineSnapshot(`"expected"`);
-      });
-    });
   });
 
   describe('getType', () => {

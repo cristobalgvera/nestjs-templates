@@ -1,6 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { isHttpException } from '../utils';
 import { CanonicalErrorType } from './types';
+import { isArray, isObject, isString } from 'class-validator';
 
 @Injectable()
 export class ErrorSnapshotHelperService {
@@ -38,10 +39,9 @@ export class ErrorSnapshotHelperService {
 
   private hasMessage(obj: unknown): obj is { message: string | string[] } {
     return (
-      obj !== null &&
-      typeof obj === 'object' &&
+      isObject(obj) &&
       'message' in obj &&
-      (typeof obj.message === 'string' || Array.isArray(obj.message))
+      (isString(obj.message) || isArray<string>(obj.message))
     );
   }
 }
