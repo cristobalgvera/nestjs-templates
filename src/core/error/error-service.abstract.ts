@@ -74,8 +74,11 @@ export abstract class ErrorService<
   protected logError(options: Opts): void {
     const { caller, method, error } = options;
 
+    const callerName = caller?.name ?? 'Unknown caller';
+    const methodName = method?.name ?? 'Unknown method';
+
     this._logger.error(
-      `[${caller?.name}: ${method?.name}] ${error.message}`,
+      `[${callerName}: ${methodName}] ${error.message}`,
       error.stack,
     );
   }

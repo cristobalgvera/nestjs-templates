@@ -28,15 +28,19 @@ describe('RuntimeErrorService', () => {
   });
 
   describe('handleError', () => {
-    describe('when logging the error', () => {
+    describe.each<{ method: unknown; caller: unknown }>([
+      { method: () => ({}), caller: {} },
+      { method: undefined, caller: {} },
+      { method: () => ({}), caller: undefined },
+    ])('when logging the error with %p', ({ caller, method }) => {
       it('should log the error', () => {
         const loggerSpy = jest.spyOn(logger, 'error');
 
         try {
           underTest.handleError({
             error: {},
-            method: {},
-            caller: {},
+            method,
+            caller,
           } as any);
         } catch (error) {
           // Ignore error
