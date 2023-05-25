@@ -1,4 +1,4 @@
-import { CanonicalErrorType } from '../types';
+import { CanonicalErrorType } from '../constants';
 
 export type CanonicalErrorDto = {
   code?: string;

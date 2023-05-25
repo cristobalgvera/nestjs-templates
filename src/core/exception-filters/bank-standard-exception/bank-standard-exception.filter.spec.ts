@@ -1,4 +1,5 @@
 import { TestBed } from '@automock/jest';
+import { createMock } from '@golevelup/ts-jest';
 import {
   ArgumentsHost,
   BadGatewayException,
@@ -7,17 +8,18 @@ import {
   Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
+import { BankStandardExceptionFilter } from './bank-standard-exception.filter';
 import { ErrorSnapshotService } from './error-snapshot';
-import { GenericExceptionFilter } from './generic-exception.filter';
-import { createMock } from '@golevelup/ts-jest';
 
-describe('GenericExceptionFilter', () => {
-  let underTest: GenericExceptionFilter;
+describe('BankStandardExceptionFilter', () => {
+  let underTest: BankStandardExceptionFilter;
   let logger: Logger;
   let errorSnapshotService: ErrorSnapshotService;
 
   beforeEach(() => {
-    const { unit, unitRef } = TestBed.create(GenericExceptionFilter).compile();
+    const { unit, unitRef } = TestBed.create(
+      BankStandardExceptionFilter,
+    ).compile();
 
     underTest = unit;
     logger = unitRef.get(Logger);

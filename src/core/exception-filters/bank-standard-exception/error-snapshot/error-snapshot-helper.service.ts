@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { isHttpException } from '../utils';
-import { CanonicalErrorType } from './types';
 import { isArray, isObject, isString } from 'class-validator';
+import { isHttpException } from '../utils';
+import { CanonicalErrorType } from './constants';
 
 @Injectable()
 export class ErrorSnapshotHelperService {

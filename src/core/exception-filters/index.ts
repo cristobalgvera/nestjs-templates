@@ -1,1 +1,1 @@
-export * from './generic-exception';
+export * from './bank-standard-exception';

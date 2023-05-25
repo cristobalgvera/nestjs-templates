@@ -1,7 +1,7 @@
-import { ErrorSnapshotService } from './error-snapshot.service';
-import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
 import { TestBed } from '@automock/jest';
-import { ErrorResponseDto } from './dto';
+import { BankStandardErrorResponseDto } from './dto';
+import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
+import { ErrorSnapshotService } from './error-snapshot.service';
 
 describe('ErrorSnapshotService', () => {
   let underTest: ErrorSnapshotService;
@@ -63,7 +63,7 @@ describe('ErrorSnapshotService', () => {
     });
 
     describe('when the HTTP status code is not found', () => {
-      let actual: ErrorResponseDto;
+      let actual: BankStandardErrorResponseDto;
 
       beforeEach(() => {
         jest

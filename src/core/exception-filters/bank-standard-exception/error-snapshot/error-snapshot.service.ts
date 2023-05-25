@@ -1,12 +1,15 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
+import { BankStandardErrorResponseDto } from './dto';
 import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
-import { ErrorResponseDto } from './dto';
 
 @Injectable()
 export class ErrorSnapshotService {
   constructor(private readonly helperService: ErrorSnapshotHelperService) {}
 
-  getSnapshot(httpStatus: HttpStatus, exception: Error): ErrorResponseDto {
+  getSnapshot(
+    httpStatus: HttpStatus,
+    exception: Error,
+  ): BankStandardErrorResponseDto {
     const code = this.helperService.getCode(httpStatus)?.toString();
     const description = this.helperService.getDescription(exception);
     const type = this.helperService.getType(httpStatus, exception);

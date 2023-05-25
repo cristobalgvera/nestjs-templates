@@ -10,7 +10,7 @@ import { ErrorSnapshotService } from './error-snapshot';
 import { isHttpException } from './utils';
 
 @Catch()
-export class GenericExceptionFilter<TException extends Error = Error>
+export class BankStandardExceptionFilter<TException extends Error = Error>
   implements ExceptionFilter<TException>
 {
   constructor(
@@ -22,7 +22,7 @@ export class GenericExceptionFilter<TException extends Error = Error>
     this.logger.error(
       exception.message,
       exception.stack,
-      GenericExceptionFilter.name,
+      BankStandardExceptionFilter.name,
     );
 
     const status = this.getStatus(exception);

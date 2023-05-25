@@ -1,7 +1,7 @@
-import { BadRequestException, HttpStatus } from '@nestjs/common';
-import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
 import { TestBed } from '@automock/jest';
-import { CanonicalErrorType } from './types';
+import { BadRequestException, HttpStatus } from '@nestjs/common';
+import { CanonicalErrorType } from './constants';
+import { ErrorSnapshotHelperService } from './error-snapshot-helper.service';
 
 describe('ErrorSnapshotHelperService', () => {
   let underTest: ErrorSnapshotHelperService;
