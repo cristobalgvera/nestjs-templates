@@ -11,7 +11,7 @@ export class RequestHeadersService {
     const bankStandardRequestHeadersDto = plainToInstance(
       BankStandardRequestHeadersDto,
       requestHeaders,
-      { enableImplicitConversion: true },
+      { enableImplicitConversion: true, excludeExtraneousValues: true },
     );
 
     const validation = bankStandardRequestHeadersSchema.validate(
