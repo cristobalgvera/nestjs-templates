@@ -1,7 +1,7 @@
 import { ResultStatus } from '../constants';
 
-export type ResultDto = Readonly<{
+export class ResultDto {
   // FIX: Remove `description` property if it's not used
-  description: '';
-  status: ResultStatus;
-}>;
+  readonly description: '';
+  readonly status: ResultStatus;
+}
