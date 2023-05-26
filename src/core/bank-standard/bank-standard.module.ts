@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { SERVICE_DOMAIN_NAME_CODE } from './constants';
 import { BankStandardExceptionModule } from './exception-filters';
 import {
   BankStandardHeadersModule,
@@ -10,8 +11,7 @@ import {
     BankStandardExceptionModule,
     BankStandardHeadersModule,
     BankStandardSuccessModule.forRoot({
-      // TODO: Add proper service domain name code
-      serviceDomainNameCode: 'SERVICE_DOMAIN_NAME_CODE',
+      serviceDomainNameCode: SERVICE_DOMAIN_NAME_CODE,
     }),
   ],
 })
