@@ -7,7 +7,11 @@ import {
 } from './dto';
 import { RequestHeadersService } from './request-headers.service';
 
-jest.mock('class-transformer');
+jest.mock('class-transformer', () => ({
+  ...jest.requireActual('class-transformer'),
+  plainToInstance: jest.fn(),
+}));
+
 jest.mock('./dto', () => ({
   ...jest.requireActual('./dto'),
   bankStandardRequestHeadersSchema: {
@@ -54,6 +58,7 @@ describe('RequestHeadersService', () => {
         Parameters<typeof plainToInstance>
       >(BankStandardRequestHeadersDto, expected, {
         enableImplicitConversion: true,
+        excludeExtraneousValues: true,
       });
     });
 
