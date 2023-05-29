@@ -7,7 +7,10 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Observable, tap } from 'rxjs';
-import { RequestHeadersService } from './request-headers';
+import {
+  BankStandardRequestHeadersDto,
+  RequestHeadersService,
+} from './request-headers';
 import { ResponseHeadersService } from './response-headers';
 
 @Injectable()
@@ -28,11 +31,15 @@ export class BankStandardHeadersInterceptor implements NestInterceptor {
     const request = httpArgumentsHost.getRequest<Request>();
     const response = httpArgumentsHost.getResponse<Response>();
 
-    this.handleRequest(request);
+    const validatedHeaders = this.handleRequest(request);
 
     return next
       .handle()
-      .pipe(tap(() => this.handleResponse(response, requestDateTime, request)));
+      .pipe(
+        tap(() =>
+          this.handleResponse(response, requestDateTime, validatedHeaders),
+        ),
+      );
   }
 
   private handleRequest(request: Request) {
@@ -44,18 +51,20 @@ export class BankStandardHeadersInterceptor implements NestInterceptor {
       `Request headers: ${JSON.stringify(validatedHeaders)}`,
       BankStandardHeadersInterceptor.name,
     );
+
+    return validatedHeaders;
   }
 
   private handleResponse(
     response: Response,
     requestDateTime: Date,
-    request: Request,
+    validatedHeaders: BankStandardRequestHeadersDto,
   ) {
-    const traceConversationId = request.get('Trace-Conversation-Id');
+    const traceSourceId = validatedHeaders['trace-source-id'];
 
     const traceabilityHeaders = this.responseHeadersService.getHeaders({
       requestDateTime,
-      traceConversationId,
+      traceSourceId,
     });
 
     response.set(traceabilityHeaders);

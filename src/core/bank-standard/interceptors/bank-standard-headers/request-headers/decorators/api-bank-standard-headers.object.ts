@@ -20,6 +20,7 @@ export const bankStandardHeaders: BankStandardHeadersOptions[] = [
   {
     name: 'trace-client-req-timestamp',
     description: 'Timestamp of the request',
+    required: true,
     schema: { format: 'date' },
   },
   {
@@ -28,14 +29,18 @@ export const bankStandardHeaders: BankStandardHeadersOptions[] = [
   },
   {
     name: 'trace-source-id',
-    description: 'Additional identifier of the consumer',
+    required: true,
+    description:
+      'Unique identifier of the execution, that identifies the consumer event',
   },
   {
     name: 'channel-name',
+    required: true,
     description: 'Unique code of the channel that is being used',
   },
   {
     name: 'channel-mode',
+    required: true,
     description:
       'Unique code that identify the channel mode that is being used',
   },

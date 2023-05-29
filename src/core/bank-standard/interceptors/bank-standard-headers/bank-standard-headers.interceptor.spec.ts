@@ -2,10 +2,13 @@ import { TestBed } from '@automock/jest';
 import { createMock } from '@golevelup/ts-jest';
 import { CallHandler, ExecutionContext, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { BankStandardHeadersInterceptor } from './bank-standard-headers.interceptor';
-import { RequestHeadersService } from './request-headers';
-import { ResponseHeadersService } from './response-headers';
 import { firstValueFrom, of } from 'rxjs';
+import { BankStandardHeadersInterceptor } from './bank-standard-headers.interceptor';
+import {
+  BankStandardRequestHeadersDto,
+  RequestHeadersService,
+} from './request-headers';
+import { ResponseHeadersService } from './response-headers';
 
 describe('BankStandardHeadersInterceptor', () => {
   let underTest: BankStandardHeadersInterceptor;
@@ -49,8 +52,14 @@ describe('BankStandardHeadersInterceptor', () => {
       });
     });
 
+    beforeEach(() => {
+      jest
+        .spyOn(requestHeadersService, 'validateHeaders')
+        .mockReturnValue({} as any);
+    });
+
     describe('when validating the request headers', () => {
-      it('should call the RequestHeadersService with correct pameters', async () => {
+      it('should call the RequestHeadersService with correct parameters', async () => {
         const expected = { foo: 'bar' };
 
         request.headers = expected;
@@ -85,11 +94,13 @@ describe('BankStandardHeadersInterceptor', () => {
     describe('when setting the response headers', () => {
       it('should call the ResponseHeadersService with correct parameters', async () => {
         const expectedDate = new Date(1000);
-        const expectedTraceConversationId = 'header_1';
+        const expectedTraceSourceId = 'trace_source_id';
 
         jest
-          .spyOn(request, 'get')
-          .mockReturnValueOnce(expectedTraceConversationId);
+          .spyOn(requestHeadersService, 'validateHeaders')
+          .mockReturnValueOnce({
+            'trace-source-id': expectedTraceSourceId,
+          } as BankStandardRequestHeadersDto);
 
         jest
           .useFakeTimers({ doNotFake: ['performance'] })
@@ -106,7 +117,7 @@ describe('BankStandardHeadersInterceptor', () => {
           Parameters<ResponseHeadersService['getHeaders']>
         >({
           requestDateTime: expectedDate,
-          traceConversationId: expectedTraceConversationId,
+          traceSourceId: expectedTraceSourceId,
         });
       });
 

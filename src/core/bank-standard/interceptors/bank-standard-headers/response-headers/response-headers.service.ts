@@ -3,22 +3,20 @@ import { ResponseHeadersDto } from './dto';
 
 type GetHeadersOptions = {
   requestDateTime: Date;
-  traceConversationId?: string;
+  traceSourceId: string;
 };
 
 @Injectable()
 export class ResponseHeadersService {
   getHeaders(options: GetHeadersOptions): ResponseHeadersDto {
-    const { requestDateTime, traceConversationId } = options;
+    const { requestDateTime, traceSourceId } = options;
 
     return {
       'Trace-Req-Timestamp': requestDateTime,
-      'Trace-Conversation-Id': traceConversationId,
       'Trace-Rsp-Timestamp': new Date(),
+      'Trace-Source-Id': traceSourceId,
       // FIX: Define header
-      'Trace-Correlation-Id': 'TO_BE_DEFINED',
-      // FIX: Define header
-      'Trace-Correlation-Event-Id': 'TO_BE_DEFINED',
+      'Local-Transaction-Id': 'TO_BE_DEFINED',
     };
   }
 }

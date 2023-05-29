@@ -6,20 +6,8 @@ describe('GetBankStandardResponseHeaders', () => {
 
     expect(actual).toMatchInlineSnapshot(`
       {
-        "Trace-Conversation-Id": {
-          "description": "Identification code that allows to map the response in asynchronous environments",
-          "schema": {
-            "type": "string",
-          },
-        },
-        "Trace-Correlation-Event-Id": {
-          "description": "Unique execution identification code, which identifies the conversation",
-          "schema": {
-            "type": "string",
-          },
-        },
-        "Trace-Correlation-Id": {
-          "description": "Unique identification code to correlate non-related execution instances",
+        "Local-Transaction-Id": {
+          "description": "Internal platform identifier",
           "schema": {
             "type": "string",
           },
@@ -34,6 +22,12 @@ describe('GetBankStandardResponseHeaders', () => {
           "description": "Response timestamp",
           "schema": {
             "type": "date",
+          },
+        },
+        "Trace-Source-Id": {
+          "description": "Unique identifier of the execution, that identifies the consumer event",
+          "schema": {
+            "type": "string",
           },
         },
       }
