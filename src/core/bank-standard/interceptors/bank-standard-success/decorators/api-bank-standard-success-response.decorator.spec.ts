@@ -34,7 +34,7 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
     beforeEach(() => {
       expectedModel = { foo: 'bar' };
 
-      underTest.ApiBankStandardSuccessResponse({ type: expectedModel as any });
+      underTest.ApiBankStandardSuccessResponse(expectedModel as any);
     });
 
     it('should call ApiExtraModels with ResultDto', () => {
@@ -52,8 +52,7 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
         it('should call ApiResponse with the provided status', () => {
           const expected = 'expected';
 
-          underTest.ApiBankStandardSuccessResponse({
-            type: {} as any,
+          underTest.ApiBankStandardSuccessResponse({} as any, {
             status: expected as any,
           });
 
@@ -67,7 +66,7 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
 
       describe('when the status is not provided', () => {
         it('should call ApiResponse with the default status', () => {
-          underTest.ApiBankStandardSuccessResponse({ type: {} as any });
+          underTest.ApiBankStandardSuccessResponse({} as any);
 
           expect(mockApiResponse).toHaveBeenCalledWith(
             expect.objectContaining<Parameters<typeof ApiResponse>[0]>({
@@ -82,8 +81,7 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
       it.each(['expected', undefined])(
         'should call ApiResponse with the description: %s',
         (expected) => {
-          underTest.ApiBankStandardSuccessResponse({
-            type: {} as any,
+          underTest.ApiBankStandardSuccessResponse({} as any, {
             description: expected as any,
           });
 
@@ -109,7 +107,7 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
       });
 
       it('should call ApiResponse with the base schema', () => {
-        underTest.ApiBankStandardSuccessResponse({ type: {} as any });
+        underTest.ApiBankStandardSuccessResponse({} as any);
 
         expect(mockApiResponse).toHaveBeenCalledWith(
           expect.objectContaining<Parameters<typeof ApiResponse>[0]>({
@@ -124,9 +122,7 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
 
       describe('when the model is not an array', () => {
         it('should call ApiResponse with the object schema', () => {
-          underTest.ApiBankStandardSuccessResponse({
-            type: {} as any,
-          });
+          underTest.ApiBankStandardSuccessResponse({} as any);
 
           expect(mockApiResponse).toHaveBeenCalledWith(
             expect.objectContaining<Parameters<typeof ApiResponse>[0]>({
@@ -144,8 +140,7 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
 
       describe('when the model is an array', () => {
         it('should call ApiResponse with the array schema', () => {
-          underTest.ApiBankStandardSuccessResponse({
-            type: {} as any,
+          underTest.ApiBankStandardSuccessResponse({} as any, {
             isArray: true,
           });
 

@@ -4,7 +4,7 @@ import {
   ApiBankStandardResponseHeaders,
   ApiBankStandardSuccessResponse,
 } from '../interceptors';
-import * as underTest from './api-bank-standard.decorator';
+import * as underTest from './api-bank-standard-response.decorator';
 
 jest.mock('../interceptors');
 jest.mock('@nestjs/common', () => ({
@@ -23,18 +23,25 @@ const mockApiBankStandardSuccessResponse = jest.mocked(
   ApiBankStandardSuccessResponse,
 );
 
-describe('ApiBankStandard', () => {
+describe('ApiBankStandardResponse', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
 
   describe('when setting the ApiBankStandardSuccessResponse options', () => {
     it('should call it using the provided options', () => {
-      const expected = { foo: 'bar' };
+      const expectedType = 'expected_type';
+      const expectedOptions = { foo: 'bar' };
 
-      underTest.ApiBankStandard(expected as any);
+      underTest.ApiBankStandardResponse(
+        expectedType as any,
+        expectedOptions as any,
+      );
 
-      expect(mockApiBankStandardSuccessResponse).toHaveBeenCalledWith(expected);
+      expect(mockApiBankStandardSuccessResponse).toHaveBeenCalledWith(
+        expectedType,
+        expectedOptions,
+      );
     });
   });
 
@@ -54,7 +61,7 @@ describe('ApiBankStandard', () => {
         expectedSuccessResponse as any,
       );
 
-      underTest.ApiBankStandard({} as any);
+      underTest.ApiBankStandardResponse({} as any);
 
       expect(mockApplyDecorators).toHaveBeenCalledWith(
         expectedRequestHeaders,

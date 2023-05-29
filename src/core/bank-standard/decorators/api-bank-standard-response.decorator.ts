@@ -4,14 +4,15 @@ import {
   ApiBankStandardResponseHeaders,
   ApiBankStandardSuccessResponse,
 } from '../interceptors';
-import { ApiBankStandardOptions } from './api-bank-standard-options.dto';
+import { ApiBankStandardResponseOptions } from './api-bank-standard-response-options.dto';
 
-export function ApiBankStandard<TType extends Type<unknown>>(
-  options: ApiBankStandardOptions<TType>,
+export function ApiBankStandardResponse<TType extends Type<unknown>>(
+  type: TType,
+  options: ApiBankStandardResponseOptions = {},
 ) {
   return applyDecorators(
     ApiBankStandardRequestHeaders(),
     ApiBankStandardResponseHeaders(),
-    ApiBankStandardSuccessResponse(options),
+    ApiBankStandardSuccessResponse(type, options),
   );
 }

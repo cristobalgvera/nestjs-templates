@@ -18,9 +18,10 @@ type ApiBankStandardSuccessResponseSchema = Record<
 >;
 
 export function ApiBankStandardSuccessResponse<TType extends Type<unknown>>(
-  options: ApiBankStandardSuccessResponseOptions<TType>,
+  type: TType,
+  options: ApiBankStandardSuccessResponseOptions = {},
 ) {
-  const { type, description, status, isArray } = options;
+  const { description, status, isArray } = options;
 
   const modelSchema: SchemaObject | ReferenceObject = isArray
     ? { type: 'array', items: { $ref: getSchemaPath(type) } }
