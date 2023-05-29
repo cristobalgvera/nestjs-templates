@@ -1,3 +1,4 @@
+import { SERVICE_DOMAIN_NAME_CODE } from '@core/bank-standard/constants';
 import { Type, applyDecorators } from '@nestjs/common';
 import { ApiBody, ApiExtraModels, getSchemaPath } from '@nestjs/swagger';
 import {
@@ -5,7 +6,6 @@ import {
   SchemaObject,
 } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { ApiBankStandardRequestOptions } from './api-bank-standard-request-options.dto';
-import { SERVICE_DOMAIN_NAME_CODE } from '@core/bank-standard/constants';
 
 export function ApiBankStandardRequest<TType extends Type<unknown>>(
   type: TType,
