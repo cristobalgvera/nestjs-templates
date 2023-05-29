@@ -1,8 +1,5 @@
 import { TestBed } from '@automock/jest';
-import {
-  BANK_STANDARD_SUCCESS_MAPPER_SERVICE_TOKEN,
-  BankStandardSuccessMapperService,
-} from './bank-standard-success-mapper';
+import { BankStandardSuccessMapperService } from './bank-standard-success-mapper';
 import { BankStandardSuccessInterceptor } from './bank-standard-success.interceptor';
 import { CallHandler } from '@nestjs/common';
 import { createMock } from '@golevelup/ts-jest';
@@ -10,7 +7,7 @@ import { firstValueFrom, of } from 'rxjs';
 
 describe('BankStandardSuccessInterceptor', () => {
   let underTest: BankStandardSuccessInterceptor;
-  let successMapperService: BankStandardSuccessMapperService<any>;
+  let successMapperService: BankStandardSuccessMapperService<string>;
 
   beforeEach(() => {
     const { unit, unitRef } = TestBed.create(
@@ -18,9 +15,7 @@ describe('BankStandardSuccessInterceptor', () => {
     ).compile();
 
     underTest = unit;
-    successMapperService = unitRef.get(
-      BANK_STANDARD_SUCCESS_MAPPER_SERVICE_TOKEN,
-    );
+    successMapperService = unitRef.get(BankStandardSuccessMapperService);
   });
 
   describe('intercept', () => {

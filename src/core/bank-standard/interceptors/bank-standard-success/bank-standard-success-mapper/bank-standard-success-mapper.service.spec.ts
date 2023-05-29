@@ -1,13 +1,11 @@
 import { BankStandardSuccessMapperService } from './bank-standard-success-mapper.service';
-import { BankStandardSuccessMapperProvider } from './bank-standard-success-mapper.provider';
 
-describe('BankStandardSuccessMapperProvider', () => {
-  let underTest: BankStandardSuccessMapperService<'ServiceDomainNameCode'>;
+describe('BankStandardSuccessMapperService', () => {
+  let underTest: BankStandardSuccessMapperService<typeof serviceDomainNameCode>;
+  const serviceDomainNameCode = 'service_domain_name_code';
 
   beforeEach(() => {
-    underTest = BankStandardSuccessMapperProvider.provide(
-      'ServiceDomainNameCode',
-    );
+    underTest = new BankStandardSuccessMapperService(serviceDomainNameCode);
   });
 
   describe('map', () => {
@@ -18,7 +16,7 @@ describe('BankStandardSuccessMapperProvider', () => {
     });
 
     it('should return the mapped data', () => {
-      expect(actual.ResponseServiceDomainNameCode).toMatchInlineSnapshot(`
+      expect(actual.Responseservice_domain_name_code).toMatchInlineSnapshot(`
         {
           "foo": "bar",
         }
