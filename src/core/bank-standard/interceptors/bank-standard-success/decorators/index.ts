@@ -1,2 +1,2 @@
-export * from './api-bank-standard-success-response-options.dto';
-export * from './api-bank-standard-success-response.decorator';
+export * from './api-bank-standard-response-options.dto';
+export * from './api-bank-standard-response.decorator';

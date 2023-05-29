@@ -1,2 +1,2 @@
-export * from './api-bank-standard.decorator';
-export * from './api-bank-standard-options.dto';
+export { ApiBankStandardResponse } from '../interceptors';
+export * from './api-bank-standard-headers.decorator';
