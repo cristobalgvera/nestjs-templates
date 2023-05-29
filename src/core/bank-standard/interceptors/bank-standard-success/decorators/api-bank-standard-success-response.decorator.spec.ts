@@ -1,22 +1,27 @@
-import { applyDecorators } from '@nestjs/common';
-import { ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
-import { ResultDto } from '../dto';
-import * as underTest from './api-bank-standard-success-response.decorator';
 import {
   DEFAULT_HTTP_STATUS,
   SERVICE_DOMAIN_NAME_CODE,
 } from '@core/bank-standard/constants';
+import { applyDecorators } from '@nestjs/common';
+import { ApiExtraModels, ApiResponse, getSchemaPath } from '@nestjs/swagger';
+import { getBankStandardResponseHeaders } from '../../bank-standard-headers';
+import { ResultDto } from '../dto';
+import * as underTest from './api-bank-standard-success-response.decorator';
 
 jest.mock('@nestjs/common', () => ({
   ...jest.requireActual('@nestjs/common'),
   applyDecorators: jest.fn(),
 }));
 jest.mock('@nestjs/swagger');
+jest.mock('../../bank-standard-headers');
 
 const mockApplyDecorators = jest.mocked(applyDecorators);
 const mockApiExtraModels = jest.mocked(ApiExtraModels);
 const mockApiResponse = jest.mocked(ApiResponse);
 const mockGetSchemaPath = jest.mocked(getSchemaPath);
+const mockGetBankStandardResponseHeaders = jest.mocked(
+  getBankStandardResponseHeaders,
+);
 
 describe('ApiBankStandardSuccessResponseDecorator', () => {
   afterEach(() => {
@@ -158,6 +163,22 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
             }),
           );
         });
+      });
+    });
+
+    describe('when assigning the headers', () => {
+      it('should call ApiResponse with the headers', () => {
+        const expected = { foo: 'bar' };
+
+        mockGetBankStandardResponseHeaders.mockReturnValueOnce(expected as any);
+
+        underTest.ApiBankStandardSuccessResponse({} as any);
+
+        expect(mockApiResponse).toHaveBeenCalledWith(
+          expect.objectContaining<Parameters<typeof ApiResponse>[0]>({
+            headers: expected as any,
+          }),
+        );
       });
     });
   });
