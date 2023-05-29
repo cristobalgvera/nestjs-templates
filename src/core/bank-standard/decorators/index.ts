@@ -1,1 +1,4 @@
-export { ApiBankStandardSuccessResponse } from '../interceptors/bank-standard-success';
+export {
+  ApiBankStandardRequestHeaders,
+  ApiBankStandardSuccessResponse,
+} from '../interceptors';
