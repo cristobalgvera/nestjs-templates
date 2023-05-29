@@ -1,13 +1,16 @@
 import { TestBed } from '@automock/jest';
+import { Logger } from '@nestjs/common';
 import { ResponseHeadersService } from './response-headers.service';
 
 describe('ResponseHeadersService', () => {
   let underTest: ResponseHeadersService;
+  let logger: Logger;
 
   beforeEach(() => {
-    const { unit } = TestBed.create(ResponseHeadersService).compile();
+    const { unit, unitRef } = TestBed.create(ResponseHeadersService).compile();
 
     underTest = unit;
+    logger = unitRef.get(Logger);
   });
 
   afterEach(() => {
@@ -33,6 +36,14 @@ describe('ResponseHeadersService', () => {
           "Trace-Source-Id": "trace_source_id",
         }
       `);
+    });
+
+    it('should log the response headers', () => {
+      const loggerSpy = jest.spyOn(logger, 'log');
+
+      underTest.getHeaders({} as any);
+
+      expect(loggerSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

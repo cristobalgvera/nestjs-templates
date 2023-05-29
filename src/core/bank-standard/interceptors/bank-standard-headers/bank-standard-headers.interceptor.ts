@@ -47,10 +47,7 @@ export class BankStandardHeadersInterceptor implements NestInterceptor {
       request.headers,
     );
 
-    this.logger.log(
-      `Request headers: ${JSON.stringify(validatedHeaders)}`,
-      BankStandardHeadersInterceptor.name,
-    );
+    this.logger.log(`Request headers: ${JSON.stringify(validatedHeaders)}`);
 
     return validatedHeaders;
   }

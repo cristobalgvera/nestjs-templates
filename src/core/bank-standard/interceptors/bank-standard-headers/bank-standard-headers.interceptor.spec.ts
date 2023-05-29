@@ -86,7 +86,6 @@ describe('BankStandardHeadersInterceptor', () => {
 
         expect(loggerSpy).toHaveBeenCalledWith(
           expect.stringContaining(JSON.stringify(expected)),
-          BankStandardHeadersInterceptor.name,
         );
       });
     });
