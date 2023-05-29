@@ -7,7 +7,7 @@ import { ResponseHeadersService } from './response-headers/response-headers.serv
 @Module({
   providers: [
     { provide: APP_INTERCEPTOR, useClass: BankStandardHeadersInterceptor },
-    { provide: Logger, useValue: new Logger('BankStandardHeadersModule') },
+    { provide: Logger, useValue: new Logger(BankStandardHeadersModule.name) },
     RequestHeadersService,
     ResponseHeadersService,
   ],

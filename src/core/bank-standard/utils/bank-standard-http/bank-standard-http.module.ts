@@ -15,8 +15,11 @@ export class BankStandardHttpModule {
         HttpModule.registerAsync({
           useClass: HttpConfigService,
           extraProviders: [
-            { provide: Logger, useValue: new Logger('BankStandardHttpModule') },
             { provide: HTTP_CONFIG_OPTIONS, useValue: httpConfigOptions },
+            {
+              provide: Logger,
+              useValue: new Logger(BankStandardHttpModule.name),
+            },
           ],
         }),
       ],

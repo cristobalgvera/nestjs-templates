@@ -6,8 +6,8 @@ import { ErrorSnapshotModule } from './error-snapshot';
 @Module({
   imports: [ErrorSnapshotModule],
   providers: [
-    Logger,
     { provide: APP_FILTER, useClass: BankStandardExceptionFilter },
+    { provide: Logger, useValue: new Logger(BankStandardExceptionModule.name) },
   ],
 })
 export class BankStandardExceptionModule {}
