@@ -5,11 +5,13 @@ import {
   BankStandardHeadersModule,
   BankStandardSuccessModule,
 } from './interceptors';
+import { BankStandardRequestModule } from './middlewares';
 
 @Module({
   imports: [
     BankStandardExceptionModule,
     BankStandardHeadersModule,
+    BankStandardRequestModule,
     BankStandardSuccessModule.forRoot({
       serviceDomainNameCode: SERVICE_DOMAIN_NAME_CODE,
     }),
