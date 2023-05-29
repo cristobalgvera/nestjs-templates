@@ -1,5 +1,10 @@
 import { HttpModuleOptions, HttpModuleOptionsFactory } from '@nestjs/axios';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
 import {
@@ -19,10 +24,8 @@ export class HttpConfigService implements HttpModuleOptionsFactory {
   ) {}
 
   createHttpOptions(): HttpModuleOptions {
-    const headers = this.getHeaders();
-
     return {
-      headers,
+      headers: this.getHeaders(),
       transformResponse: (data, headers) => {
         this.logger.log(
           `HTTP data: ${JSON.stringify(data)}, with headers: ${JSON.stringify(
@@ -35,18 +38,24 @@ export class HttpConfigService implements HttpModuleOptionsFactory {
     };
   }
 
-  private getHeaders(): Partial<HttpConfigOptionsHeaders> {
+  private getHeaders(): HttpConfigOptionsHeaders {
     const { headers } = this.httpConfigOptions;
-
-    const traceSourceId = this.request.get('Trace-Source-Id');
-    const traceClientReqTimestamp = this.request.get(
-      'Trace-Client-Req-Timestamp',
-    );
 
     return {
       ...headers,
-      'trace-source-id': traceSourceId,
-      'trace-client-req-timestamp': traceClientReqTimestamp,
+      'trace-source-id': this.getHeaderOrThrow('Trace-Source-Id'),
+      'trace-client-req-timestamp': this.getHeaderOrThrow(
+        'Trace-Client-Req-Timestamp',
+      ),
     };
+  }
+
+  private getHeaderOrThrow(headerName: string): string {
+    const header = this.request.get(headerName);
+
+    if (!header)
+      throw new BadRequestException(`Header ${headerName} is missing`);
+
+    return header;
   }
 }
