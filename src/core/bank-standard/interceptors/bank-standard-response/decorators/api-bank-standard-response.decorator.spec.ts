@@ -23,7 +23,7 @@ const mockGetBankStandardResponseHeaders = jest.mocked(
   getBankStandardResponseHeaders,
 );
 
-describe('ApiBankStandardResponseDecorator', () => {
+describe('ApiBankStandardResponse', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });

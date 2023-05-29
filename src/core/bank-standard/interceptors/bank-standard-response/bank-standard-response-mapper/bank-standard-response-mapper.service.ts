@@ -1,10 +1,10 @@
 import { SERVICE_DOMAIN_NAME_CODE } from '@core/bank-standard/constants';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ResultStatus } from '../constants';
-import { BankStandardSuccessResponseDto } from '../dto';
+import { BankStandardResponseDto } from '../dto';
 
 @Injectable()
-export class BankStandardSuccessMapperService<
+export class BankStandardResponseMapperService<
   ServiceDomainNameCode extends string,
 > {
   constructor(
@@ -13,7 +13,7 @@ export class BankStandardSuccessMapperService<
     private readonly logger: Logger,
   ) {}
 
-  map(data: unknown): BankStandardSuccessResponseDto<ServiceDomainNameCode> {
+  map(data: unknown): BankStandardResponseDto<ServiceDomainNameCode> {
     // @ts-expect-error - Dynamic property name can't be inferred
     const response: ReturnType<typeof this.map> = {
       Result: { status: ResultStatus.OK, description: '' },

@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { BankStandardExceptionModule } from './exception-filters';
 import {
   BankStandardHeadersModule,
-  BankStandardSuccessModule,
+  BankStandardResponseModule,
 } from './interceptors';
 import { BankStandardRequestModule } from './middlewares';
 
@@ -11,7 +11,7 @@ import { BankStandardRequestModule } from './middlewares';
     BankStandardExceptionModule,
     BankStandardHeadersModule,
     BankStandardRequestModule,
-    BankStandardSuccessModule,
+    BankStandardResponseModule,
   ],
 })
 export class BankStandardModule {}

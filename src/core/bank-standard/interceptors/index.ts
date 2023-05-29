@@ -1,2 +1,2 @@
 export * from './bank-standard-headers';
-export * from './bank-standard-success';
+export * from './bank-standard-response';

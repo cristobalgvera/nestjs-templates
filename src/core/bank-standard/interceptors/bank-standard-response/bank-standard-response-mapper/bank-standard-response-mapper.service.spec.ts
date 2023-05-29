@@ -1,16 +1,18 @@
 import { createMock } from '@golevelup/ts-jest';
 import { Logger } from '@nestjs/common';
-import { BankStandardSuccessMapperService } from './bank-standard-success-mapper.service';
+import { BankStandardResponseMapperService } from './bank-standard-response-mapper.service';
 
-describe('BankStandardSuccessMapperService', () => {
-  let underTest: BankStandardSuccessMapperService<typeof serviceDomainNameCode>;
+describe('BankStandardResponseMapperService', () => {
+  let underTest: BankStandardResponseMapperService<
+    typeof serviceDomainNameCode
+  >;
   let logger: Logger;
   const serviceDomainNameCode = 'service_domain_name_code';
 
   beforeEach(() => {
     logger = createMock();
 
-    underTest = new BankStandardSuccessMapperService(
+    underTest = new BankStandardResponseMapperService(
       serviceDomainNameCode,
       logger,
     );

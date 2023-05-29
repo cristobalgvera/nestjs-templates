@@ -5,12 +5,12 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { map } from 'rxjs';
-import { BankStandardSuccessMapperService } from './bank-standard-success-mapper';
+import { BankStandardResponseMapperService } from './bank-standard-response-mapper';
 
 @Injectable()
-export class BankStandardSuccessInterceptor implements NestInterceptor {
+export class BankStandardResponseInterceptor implements NestInterceptor {
   constructor(
-    private readonly successMapperService: BankStandardSuccessMapperService<string>,
+    private readonly successMapperService: BankStandardResponseMapperService<string>,
   ) {}
 
   intercept(_: ExecutionContext, next: CallHandler<unknown>) {

@@ -9,11 +9,11 @@ import {
   SchemaObject,
 } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
 import { getBankStandardResponseHeaders } from '../../bank-standard-headers';
-import { BankStandardSuccessResponseDto, ResultDto } from '../dto';
+import { BankStandardResponseDto, ResultDto } from '../dto';
 import { ApiBankStandardResponseOptions } from './api-bank-standard-response-options.dto';
 
-type ApiBankStandardSuccessResponseSchema = Record<
-  keyof BankStandardSuccessResponseDto<typeof SERVICE_DOMAIN_NAME_CODE>,
+type ApiBankStandardResponseSchema = Record<
+  keyof BankStandardResponseDto<typeof SERVICE_DOMAIN_NAME_CODE>,
   SchemaObject | ReferenceObject
 >;
 
@@ -35,7 +35,7 @@ export function ApiBankStandardResponse<TType extends Type<unknown>>(
       description,
       headers: getBankStandardResponseHeaders(),
       schema: {
-        properties: <ApiBankStandardSuccessResponseSchema>{
+        properties: <ApiBankStandardResponseSchema>{
           Result: { $ref: getSchemaPath(ResultDto) },
           [`Response${SERVICE_DOMAIN_NAME_CODE}`]: modelSchema,
         },
