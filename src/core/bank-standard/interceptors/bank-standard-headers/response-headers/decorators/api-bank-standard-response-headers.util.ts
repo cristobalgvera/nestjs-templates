@@ -6,7 +6,13 @@ type BankStandardResponseHeaders = Record<
   HeaderObject
 >;
 
-// FIX: Add directly to Response Headers' API response decorator
+/**
+ * HACK: The decorator `@ApiResponse` can be use just once per response.
+ * This function allows to add the Bank Standard Response Headers to the response
+ * in any place the decorator `@ApiResponse` is used.
+ * ---
+ * TODO: Add directly to Response Headers' API Response decorator (modularize it).
+ */
 export function getBankStandardResponseHeaders(): BankStandardResponseHeaders {
   return {
     'Trace-Req-Timestamp': {

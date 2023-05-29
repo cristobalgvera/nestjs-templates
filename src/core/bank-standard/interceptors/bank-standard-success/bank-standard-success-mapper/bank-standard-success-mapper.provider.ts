@@ -10,10 +10,11 @@ export class BankStandardSuccessMapperProvider {
       map: (
         data: unknown,
       ): BankStandardSuccessResponseDto<ServiceDomainNameCode> => {
+        // @ts-expect-error - Dynamic property name can't be infered
         return {
           Result: { status: ResultStatus.OK, description: '' },
           [`Response${serviceDomainNameCode}`]: data,
-        } as any; // FIX: Find a proper way to type this
+        };
       },
     };
   }
