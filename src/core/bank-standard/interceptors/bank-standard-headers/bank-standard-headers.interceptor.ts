@@ -11,9 +11,7 @@ import { RequestHeadersService } from './request-headers';
 import { ResponseHeadersService } from './response-headers';
 
 @Injectable()
-export class BankStandardHeadersInterceptor
-  implements NestInterceptor<unknown, unknown>
-{
+export class BankStandardHeadersInterceptor implements NestInterceptor {
   constructor(
     private readonly requestHeadersService: RequestHeadersService,
     private readonly responseHeadersService: ResponseHeadersService,

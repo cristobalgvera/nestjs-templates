@@ -23,33 +23,12 @@ export const bankStandardHeaders: BankStandardHeadersOptions[] = [
     schema: { format: 'date' },
   },
   {
-    name: 'trace-process-id',
-    description: 'Code that identify the business process',
-  },
-  {
     name: 'trace-event-id',
     description: 'Unique code that identify the consumer event',
   },
   {
     name: 'trace-source-id',
     description: 'Additional identifier of the consumer',
-  },
-  {
-    name: 'trace-conversation-id',
-    description: 'Unique code that identify the conversation',
-  },
-  {
-    name: 'trace-service-code',
-    description:
-      'Unique code that identify the service from which the request is originated',
-  },
-  {
-    name: 'trace-service-name',
-    description: 'Name of the service that executes the consumer',
-  },
-  {
-    name: 'trace-service-operation',
-    description: 'Name of the operation that executes the consumer',
   },
   {
     name: 'channel-name',

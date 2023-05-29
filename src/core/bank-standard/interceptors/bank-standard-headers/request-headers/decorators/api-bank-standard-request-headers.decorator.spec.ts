@@ -44,13 +44,8 @@ describe('ApiBankStandardRequestHeaders', () => {
       { name: 'consumer-enterprise-code', required: true },
       { name: 'consumer-country-code', required: true },
       { name: 'trace-client-req-timestamp', schema: { format: 'date' } },
-      { name: 'trace-process-id' },
       { name: 'trace-event-id' },
       { name: 'trace-source-id' },
-      { name: 'trace-conversation-id' },
-      { name: 'trace-service-code' },
-      { name: 'trace-service-name' },
-      { name: 'trace-service-operation' },
       { name: 'channel-name' },
       { name: 'channel-mode' },
     ])('should call ApiHeaders with %p', (options) => {

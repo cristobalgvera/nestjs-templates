@@ -11,32 +11,17 @@ export class BankStandardRequestHeadersDto {
   'consumer-country-code': string;
 
   @Expose()
-  'trace-client-req-timestamp'?: Date;
+  'trace-client-req-timestamp': Date;
 
   @Expose()
-  'trace-process-id'?: string;
+  'trace-source-id': string;
 
   @Expose()
   'trace-event-id'?: string;
 
   @Expose()
-  'trace-source-id'?: string;
+  'channel-name': string;
 
   @Expose()
-  'trace-conversation-id'?: string;
-
-  @Expose()
-  'trace-service-code'?: string;
-
-  @Expose()
-  'trace-service-name'?: string;
-
-  @Expose()
-  'trace-service-operation'?: string;
-
-  @Expose()
-  'channel-name'?: string;
-
-  @Expose()
-  'channel-mode'?: string;
+  'channel-mode': string;
 }
