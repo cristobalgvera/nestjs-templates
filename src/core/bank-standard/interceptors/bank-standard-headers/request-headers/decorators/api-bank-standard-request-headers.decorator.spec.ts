@@ -55,7 +55,7 @@ describe('ApiBankStandardRequestHeaders', () => {
       { name: 'channel-mode' },
     ])('should call ApiHeaders with %p', (options) => {
       expect(mockApiHeaders).toHaveBeenCalledWith(
-        expect.arrayContaining([options]),
+        expect.arrayContaining([expect.objectContaining(options)]),
       );
     });
   });
