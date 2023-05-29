@@ -34,7 +34,6 @@ export function ApiBankStandardSuccessResponse<TType extends Type<unknown>>(
       description,
       headers: getBankStandardResponseHeaders(),
       schema: {
-        type: 'object',
         properties: <ApiBankStandardSuccessResponseSchema>{
           Result: { $ref: getSchemaPath(ResultDto) },
           [`Response${SERVICE_DOMAIN_NAME_CODE}`]: modelSchema,

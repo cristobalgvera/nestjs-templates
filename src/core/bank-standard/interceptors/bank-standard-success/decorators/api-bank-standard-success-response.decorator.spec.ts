@@ -114,7 +114,6 @@ describe('ApiBankStandardSuccessResponseDecorator', () => {
         expect(mockApiResponse).toHaveBeenCalledWith(
           expect.objectContaining<Parameters<typeof ApiResponse>[0]>({
             schema: {
-              type: 'object',
               properties: expect.objectContaining({
                 Result: { $ref: RESULT_DTO_REF },
               }),
