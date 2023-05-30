@@ -19,7 +19,6 @@ export class RequestHeadersService {
       { allowUnknown: true, abortEarly: false },
     );
 
-    // TODO: Add a way to avoid the validation when creating the module
     if (validation.error)
       throw new BadRequestException(validation.error.message);
 

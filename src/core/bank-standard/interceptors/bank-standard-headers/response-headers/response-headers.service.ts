@@ -1,5 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ResponseHeadersDto } from './dto';
+import {
+  RESPONSE_HEADERS_SERVICE_OPTIONS,
+  ResponseHeadersServiceOptions,
+} from './response-headers-service-options.dto';
 
 type GetHeadersOptions = {
   requestDateTime: Date;
@@ -8,7 +12,11 @@ type GetHeadersOptions = {
 
 @Injectable()
 export class ResponseHeadersService {
-  constructor(private readonly logger: Logger) {}
+  constructor(
+    @Inject(RESPONSE_HEADERS_SERVICE_OPTIONS)
+    private readonly responseHeadersServiceOptions: ResponseHeadersServiceOptions,
+    private readonly logger: Logger,
+  ) {}
 
   getHeaders(options: GetHeadersOptions): ResponseHeadersDto {
     const { requestDateTime, traceSourceId } = options;
@@ -17,8 +25,7 @@ export class ResponseHeadersService {
       'Trace-Req-Timestamp': requestDateTime,
       'Trace-Rsp-Timestamp': new Date(),
       'Trace-Source-Id': traceSourceId,
-      // FIX: Define header
-      'Local-Transaction-Id': 'TO_BE_DEFINED',
+      ...this.responseHeadersServiceOptions,
     };
 
     this.logger.log(`Response headers: ${JSON.stringify(headers)}`);

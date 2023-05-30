@@ -21,7 +21,7 @@ export const bankStandardHeaders: BankStandardHeadersOptions[] = [
     name: 'trace-client-req-timestamp',
     description: 'Timestamp of the request',
     required: true,
-    schema: { format: 'date' },
+    schema: { format: 'date', example: '2021-01-01T00:00:00.000Z' },
   },
   {
     name: 'trace-event-id',

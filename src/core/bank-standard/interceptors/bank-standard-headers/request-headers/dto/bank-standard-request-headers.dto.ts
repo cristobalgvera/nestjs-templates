@@ -11,7 +11,7 @@ export class BankStandardRequestHeadersDto {
   'consumer-country-code': string;
 
   @Expose()
-  'trace-client-req-timestamp': Date;
+  'trace-client-req-timestamp': string;
 
   @Expose()
   'trace-source-id': string;

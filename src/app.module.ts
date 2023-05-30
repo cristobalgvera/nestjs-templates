@@ -1,15 +1,22 @@
-import { EnvironmentModule } from '@core/environment';
-import { Logger, Module } from '@nestjs/common';
 import {
   BankStandardHttpModule,
   BankStandardModule,
 } from '@core/bank-standard';
+import { EnvironmentModule } from '@core/environment';
+import { Logger, Module } from '@nestjs/common';
 
 @Module({
   imports: [
     EnvironmentModule,
-    BankStandardModule,
-    // TODO: Set proper values for headers
+    // TODO: Set proper values for response headers
+    BankStandardModule.forRoot({
+      headers: {
+        responseHeaders: {
+          'Local-Transaction-Id': '[CHANGE_ME] local-transaction-id',
+        },
+      },
+    }),
+    // TODO: Set proper values for HTTP requests headers
     BankStandardHttpModule.forRoot({
       headers: {
         'consumer-sys-code': '[CHANGE_ME] consumer-sys-code',

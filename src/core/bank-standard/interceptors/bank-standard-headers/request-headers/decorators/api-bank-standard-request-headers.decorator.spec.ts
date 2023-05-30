@@ -43,11 +43,15 @@ describe('ApiBankStandardRequestHeaders', () => {
       { name: 'consumer-sys-code', required: true },
       { name: 'consumer-enterprise-code', required: true },
       { name: 'consumer-country-code', required: true },
-      { name: 'trace-client-req-timestamp', schema: { format: 'date' } },
+      {
+        name: 'trace-client-req-timestamp',
+        required: true,
+        schema: expect.objectContaining({ format: 'date' }),
+      },
       { name: 'trace-event-id' },
-      { name: 'trace-source-id' },
-      { name: 'channel-name' },
-      { name: 'channel-mode' },
+      { name: 'trace-source-id', required: true },
+      { name: 'channel-name', required: true },
+      { name: 'channel-mode', required: true },
     ])('should call ApiHeaders with %p', (options) => {
       expect(mockApiHeaders).toHaveBeenCalledWith(
         expect.arrayContaining([expect.objectContaining(options)]),

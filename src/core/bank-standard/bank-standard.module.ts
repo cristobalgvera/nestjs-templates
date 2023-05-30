@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module } from '@nestjs/common';
+import { BankStandardModuleOptions } from './bank-standard-module-options.dto';
 import { BankStandardExceptionModule } from './exception-filters';
 import {
   BankStandardHeadersModule,
@@ -6,12 +7,19 @@ import {
 } from './interceptors';
 import { BankStandardRequestModule } from './middlewares';
 
-@Module({
-  imports: [
-    BankStandardExceptionModule,
-    BankStandardHeadersModule,
-    BankStandardRequestModule,
-    BankStandardResponseModule,
-  ],
-})
-export class BankStandardModule {}
+@Module({})
+export class BankStandardModule {
+  static forRoot(options: BankStandardModuleOptions): DynamicModule {
+    const { headers } = options;
+
+    return {
+      module: BankStandardModule,
+      imports: [
+        BankStandardExceptionModule,
+        BankStandardHeadersModule.forRoot(headers),
+        BankStandardRequestModule,
+        BankStandardResponseModule,
+      ],
+    };
+  }
+}
