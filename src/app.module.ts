@@ -12,7 +12,10 @@ import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [EnvironmentModule],
-  providers: [Logger, { provide: APP_FILTER, useClass: GenericErrorFilter }],
+  providers: [
+    { provide: Logger, useValue: new Logger(AppModule.name) },
+    { provide: APP_FILTER, useClass: GenericErrorFilter },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
