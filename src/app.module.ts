@@ -4,6 +4,6 @@ import { Logger, Module } from '@nestjs/common';
 
 @Module({
   imports: [EnvironmentModule, RedisModule],
-  providers: [Logger],
+  providers: [{ provide: Logger, useValue: new Logger(AppModule.name) }],
 })
 export class AppModule {}
