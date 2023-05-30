@@ -11,7 +11,7 @@ type BankStandardResponseHeaders = Record<
  * This function allows to add the Bank Standard Response Headers to the response
  * in any place the decorator `@ApiResponse` is used.
  * ---
- * TODO: Add directly to Response Headers' API Response decorator (modularize it).
+ * Add directly to Response Headers' API Response decorator (modularize it).
  */
 export function getBankStandardResponseHeaders(): BankStandardResponseHeaders {
   return {
