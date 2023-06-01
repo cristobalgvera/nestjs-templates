@@ -3,13 +3,7 @@ services:
   # TODO: Add proper service name
   ${SERVICE_NAME}:
     build:
-      dockerfile: Dockerfile.dev
-    environment:
-      - PUB_SUB_EMULATOR_HOST=${PUB_SUB_EMULATOR_HOST}
-      - PUB_SUB_PROJECT_ID=${PUB_SUB_PROJECT_ID}
-      - PUB_SUB_TOPIC=${PUB_SUB_TOPIC}
-      - PUB_SUB_SUBSCRIPTION=${PUB_SUB_SUBSCRIPTION}
-      - PUB_SUB_PATTERN=${PUB_SUB_PATTERN}
+      dockerfile: ./.devcontainer/Dockerfile
     ports:
       - 8080:8080
     depends_on:
