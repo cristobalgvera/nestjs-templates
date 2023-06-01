@@ -3,9 +3,7 @@ services:
   # TODO: Add proper service name
   ${SERVICE_NAME}:
     build:
-      dockerfile: Dockerfile.dev
-    # environment:
-    #   ENVIRONMENT_KEY: ${ENVIRONMENT_IN_DOT_ENV}
+      dockerfile: ./.devcontainer/Dockerfile
     ports:
       - 8080:8080
     volumes:
