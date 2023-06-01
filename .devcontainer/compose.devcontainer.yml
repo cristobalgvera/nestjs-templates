@@ -2,10 +2,8 @@
 services:
   # TODO: Add proper service name
   ${SERVICE_NAME}:
-    build:
-      dockerfile: .devcontainer/Dockerfile
-      target: dev
     volumes:
-      # TODO: Add proper service folder name
-      - ./${SERVICE_NAME}:/app
+      # Change `./:/app` to `./${SERVICE_NAME}:/app` if
+      # you are using a global compose file
+      - ./:/app
       - /app/node_modules/
