@@ -10,3 +10,25 @@ services:
       - 8080:8080
     volumes:
       - ./src:/app/src
+  redis:
+    image: redis
+    hostname: ${REDISHOST}
+    command: redis-server --port $REDISPORT --save 60 1 --loglevel warning --requirepass $REDISAUTH
+    environment:
+      - REDIS_REPLICATION_MODE=master
+      - REDISAUTH=${REDISAUTH}
+      - REDISPORT=${REDISPORT}
+    volumes:
+      - data:/data
+  redisinsight:
+    image: redislabs/redisinsight
+    ports:
+      - 8001:8001
+    volumes:
+      - redisinsight_data:/db
+    depends_on:
+      - redis
+
+volumes:
+  data:
+  redisinsight_data:
