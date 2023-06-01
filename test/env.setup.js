@@ -8,3 +8,5 @@
  * By doing this, we can produce an error when launching the service
  * if the variable is not set, and avoid that error when testing it.
  */
+
+process.env.IP_WHITELIST_EXAMPLE = JSON.stringify([]);
