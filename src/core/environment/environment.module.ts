@@ -14,7 +14,7 @@ import { Environment } from './environment.type';
           .default('development'),
         PORT: Joi.number().default(8080),
         IS_SWAGGER_ENABLED: Joi.boolean().default(true),
-        FIREBASE_PROJECT_ID: Joi.string().required(),
+        FIRESTORE_PROJECT_ID: Joi.string().required(),
       }),
     }),
   ],

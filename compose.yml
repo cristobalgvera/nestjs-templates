@@ -15,7 +15,7 @@ services:
   firebase:
     image: fixl/firebase-emulator-suite
     environment:
-      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - FIREBASE_PROJECT_ID=${FIRESTORE_PROJECT_ID}
       - UI_PORT=${FIREBASE_UI_PORT}
       - FIRESTORE=true
       - FIRESTORE_PORT=${FIRESTORE_PORT}

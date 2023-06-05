@@ -8,3 +8,5 @@
  * By doing this, we can produce an error when launching the service
  * if the variable is not set, and avoid that error when testing it.
  */
+
+process.env.FIRESTORE_PROJECT_ID = 'project-id';
