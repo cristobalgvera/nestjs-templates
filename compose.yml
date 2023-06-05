@@ -4,7 +4,31 @@ services:
   ${SERVICE_NAME}:
     build:
       dockerfile: ./.devcontainer/Dockerfile
+    environment:
+      - FIRESTORE_EMULATOR_HOST=firebase:${FIRESTORE_PORT}
     ports:
       - 8080:8080
+    depends_on:
+      - firebase
     volumes:
       - ./src:/app/src
+  firebase:
+    image: fixl/firebase-emulator-suite
+    environment:
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID}
+      - UI_PORT=${FIREBASE_UI_PORT}
+      - FIRESTORE=true
+      - FIRESTORE_PORT=${FIRESTORE_PORT}
+    ports:
+      - ${FIREBASE_UI_PORT}:${FIREBASE_UI_PORT}
+      - ${FIRESTORE_PORT}:${FIRESTORE_PORT}
+    healthcheck:
+      test: /usr/bin/wget -qO- http://localhost:$FIREBASE_UI_PORT
+      timeout: 30s
+      interval: 3s
+      retries: 10
+    volumes:
+      - firebase_data:/data
+
+volumes:
+  firebase_data:
