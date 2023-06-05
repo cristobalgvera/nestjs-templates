@@ -1,6 +1,5 @@
 import {
   CollectionReference,
-  DocumentReference,
   Firestore,
   Settings,
 } from '@google-cloud/firestore';
@@ -8,6 +7,7 @@ import { DynamicModule, FactoryProvider, Module } from '@nestjs/common';
 import { FirestoreModuleForRootOptions } from './firestore-module-options.dto';
 import { FIRESTORE_SETTINGS } from './tokens';
 import { CollectionProvider } from './types';
+import { getCollectionToken } from './utils';
 
 @Module({})
 export class FirestoreModule {
@@ -48,14 +48,12 @@ export class FirestoreModule {
   }
 
   private static createCollections(
-    collections: CollectionProvider[],
+    providers: CollectionProvider[],
   ): FactoryProvider<CollectionReference>[] {
-    return collections.map(
-      ({ collectionPath, injectionToken }: CollectionProvider) => ({
-        provide: injectionToken,
-        useFactory: (db: DocumentReference) => db.collection(collectionPath),
-        inject: [Firestore],
-      }),
-    );
+    return providers.map(({ path, collection }: CollectionProvider) => ({
+      provide: getCollectionToken(collection),
+      useFactory: (firestore: Firestore) => firestore.collection(path),
+      inject: [Firestore],
+    }));
   }
 }

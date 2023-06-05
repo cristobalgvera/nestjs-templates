@@ -1,6 +1,6 @@
-import { InjectionToken } from '@nestjs/common';
+import { Collection } from './collection.type';
 
 export type CollectionProvider = {
-  injectionToken: InjectionToken;
-  collectionPath: string;
+  collection: Collection;
+  path: string;
 };
