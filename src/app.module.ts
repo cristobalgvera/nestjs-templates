@@ -5,7 +5,7 @@ import { FirestoreModule } from '@features/firestore';
 @Module({
   imports: [
     EnvironmentModule,
-    FirestoreModule.forRoot({
+    FirestoreModule.forRootAsync({
       imports: [EnvironmentModule],
       useFactory: (environmentService: EnvironmentService) => ({
         projectId: environmentService.get('FIRESTORE_PROJECT_ID'),

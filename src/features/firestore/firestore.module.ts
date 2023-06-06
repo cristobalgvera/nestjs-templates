@@ -4,14 +4,16 @@ import {
   Settings,
 } from '@google-cloud/firestore';
 import { DynamicModule, FactoryProvider, Module } from '@nestjs/common';
-import { FirestoreModuleForRootOptions } from './firestore-module-options.dto';
+import { FirestoreModuleForRootAsyncOptions } from './firestore-module-options.dto';
 import { FIRESTORE_SETTINGS } from './tokens';
 import { CollectionProvider } from './types';
 import { getCollectionToken } from './utils';
 
 @Module({})
 export class FirestoreModule {
-  static forRoot(options: FirestoreModuleForRootOptions): DynamicModule {
+  static forRootAsync(
+    options: FirestoreModuleForRootAsyncOptions,
+  ): DynamicModule {
     const settingsProvider: FactoryProvider<Settings | undefined> = {
       provide: FIRESTORE_SETTINGS,
       useFactory: options.useFactory,
