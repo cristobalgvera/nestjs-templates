@@ -125,7 +125,7 @@ describe('HttpConfigService', () => {
 
         const { transformRequest } = underTest.createHttpOptions();
 
-        const actual = (transformRequest as any)(JSON.parse(expected) as any, {
+        const actual = (transformRequest as any)(JSON.parse(expected), {
           toJSON: () => '',
         });
 
