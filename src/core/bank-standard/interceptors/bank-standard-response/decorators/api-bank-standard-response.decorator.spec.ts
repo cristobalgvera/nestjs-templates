@@ -31,18 +31,30 @@ describe('ApiBankStandardResponse', () => {
   describe('when assigning extra models', () => {
     let expectedModel: unknown;
 
-    beforeEach(() => {
-      expectedModel = { foo: 'bar' };
+    describe('when the provided model is defined', () => {
+      beforeEach(() => {
+        expectedModel = { foo: 'bar' };
 
-      underTest.ApiBankStandardResponse(expectedModel as any);
+        underTest.ApiBankStandardResponse(expectedModel as any);
+      });
+
+      it('should call ApiExtraModels with ResultDto', () => {
+        expect(mockApiExtraModels).toHaveBeenCalledWith(ResultDto);
+      });
+
+      it('should call ApiExtraModels with the provided model', () => {
+        expect(mockApiExtraModels).toHaveBeenCalledWith(expectedModel);
+      });
     });
 
-    it('should call ApiExtraModels with ResultDto', () => {
-      expect(mockApiExtraModels).toHaveBeenCalledWith(ResultDto);
-    });
+    describe('when the provided model is undefined', () => {
+      beforeEach(() => {
+        underTest.ApiBankStandardResponse();
+      });
 
-    it('should call ApiExtraModels with the provided model', () => {
-      expect(mockApiExtraModels).toHaveBeenCalledWith(expectedModel);
+      it('should call ApiExtraModels with ResultDto instead of the provided model', () => {
+        expect(mockApiExtraModels).toHaveBeenNthCalledWith(2, ResultDto);
+      });
     });
   });
 
@@ -106,18 +118,36 @@ describe('ApiBankStandardResponse', () => {
         });
       });
 
-      it('should call ApiResponse with the base schema', () => {
-        underTest.ApiBankStandardResponse({} as any);
+      describe.each([{}, undefined])('when the model is %p', (model) => {
+        it('should call ApiResponse with the base schema', () => {
+          underTest.ApiBankStandardResponse(model as any);
 
-        expect(mockApiResponse).toHaveBeenCalledWith(
-          expect.objectContaining<Parameters<typeof ApiResponse>[0]>({
-            schema: {
-              properties: expect.objectContaining({
-                Result: { $ref: RESULT_DTO_REF },
+          expect(mockApiResponse).toHaveBeenCalledWith(
+            expect.objectContaining<Parameters<typeof ApiResponse>[0]>({
+              schema: {
+                properties: expect.objectContaining({
+                  Result: { $ref: RESULT_DTO_REF },
+                }),
+              },
+            }),
+          );
+        });
+      });
+
+      describe('when the model is undefined', () => {
+        it('should not contain the object schema', () => {
+          underTest.ApiBankStandardResponse();
+
+          expect(mockApiResponse).toHaveBeenCalledWith(
+            expect.objectContaining<Parameters<typeof ApiResponse>[0]>({
+              schema: expect.objectContaining({
+                properties: expect.not.objectContaining({
+                  [`Response${SERVICE_DOMAIN_NAME_CODE}`]: expect.anything(),
+                }),
               }),
-            },
-          }),
-        );
+            }),
+          );
+        });
       });
 
       describe('when the model is not an array', () => {

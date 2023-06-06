@@ -18,18 +18,24 @@ type ApiBankStandardResponseSchema = Record<
 >;
 
 export function ApiBankStandardResponse<TType extends Type<unknown>>(
-  type: TType,
+  type?: TType,
   options: ApiBankStandardResponseOptions = {},
 ) {
   const { description, status, isArray } = options;
 
-  const modelSchema: SchemaObject | ReferenceObject = isArray
-    ? { type: 'array', items: { $ref: getSchemaPath(type) } }
-    : { $ref: getSchemaPath(type) };
+  const bankResponseSchema = {} as Record<
+    string,
+    SchemaObject | ReferenceObject
+  >;
+
+  if (type !== undefined)
+    bankResponseSchema[`Response${SERVICE_DOMAIN_NAME_CODE}`] = isArray
+      ? { type: 'array', items: { $ref: getSchemaPath(type) } }
+      : { $ref: getSchemaPath(type) };
 
   return applyDecorators(
     ApiExtraModels(ResultDto),
-    ApiExtraModels(type),
+    ApiExtraModels(type ?? ResultDto),
     ApiResponse({
       status: status ?? DEFAULT_HTTP_STATUS,
       description,
@@ -37,7 +43,7 @@ export function ApiBankStandardResponse<TType extends Type<unknown>>(
       schema: {
         properties: <ApiBankStandardResponseSchema>{
           Result: { $ref: getSchemaPath(ResultDto) },
-          [`Response${SERVICE_DOMAIN_NAME_CODE}`]: modelSchema,
+          ...bankResponseSchema,
         },
       },
     }),
