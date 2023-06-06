@@ -6,6 +6,9 @@ services:
       dockerfile: ./.devcontainer/Dockerfile
     ports:
       - 8080:8080
+    depends_on:
+      - redis
+      - redisinsight
     volumes:
       - ./src:/app/src
   redis:
