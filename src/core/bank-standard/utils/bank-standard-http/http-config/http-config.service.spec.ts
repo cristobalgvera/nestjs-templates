@@ -92,44 +92,26 @@ describe('HttpConfigService', () => {
 
         const loggerSpy = jest.spyOn(logger, 'log');
 
-        (transformResponse as any)('data', expected as any);
-
-        expect(loggerSpy).toHaveBeenCalledWith(
-          expect.stringContaining(JSON.stringify(expected.toJSON())),
-        );
-      });
-    });
-
-    describe('transformRequest', () => {
-      it('should include a transformRequest', () => {
-        const actual = underTest.createHttpOptions();
-
-        expect(actual.transformRequest).toEqual(expect.any(Function));
-      });
-
-      it('should return a transformRequest that log the request headers', () => {
-        const expected = { toJSON: () => ({ foo: 'bar' }) };
-        const { transformRequest } = underTest.createHttpOptions();
-
-        const loggerSpy = jest.spyOn(logger, 'log');
-
-        (transformRequest as any)('data', expected as any);
+        (transformResponse as any)(JSON.stringify('data'), expected as any);
 
         expect(loggerSpy).toHaveBeenCalledWith(
           expect.stringContaining(JSON.stringify(expected.toJSON())),
         );
       });
 
-      it('should return a transformRequest that stringify the data', () => {
-        const expected = JSON.stringify({ foo: 'bar' });
+      it('should return the data parsed', () => {
+        const { transformResponse } = underTest.createHttpOptions();
 
-        const { transformRequest } = underTest.createHttpOptions();
+        const actual = (transformResponse as any)(
+          JSON.stringify({ foo: 'bar' }),
+          { toJSON: () => ({}) } as any,
+        );
 
-        const actual = (transformRequest as any)(JSON.parse(expected), {
-          toJSON: () => '',
-        });
-
-        expect(actual).toEqual(expected);
+        expect(actual).toMatchInlineSnapshot(`
+          {
+            "foo": "bar",
+          }
+        `);
       });
     });
   });

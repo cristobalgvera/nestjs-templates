@@ -26,17 +26,6 @@ export class HttpConfigService implements HttpModuleOptionsFactory {
   createHttpOptions(): HttpModuleOptions {
     return {
       headers: this.getHeaders(),
-      transformRequest: (data, headers) => {
-        const stringifiedData = JSON.stringify(data);
-
-        this.logger.log(
-          `HTTP Request data: ${stringifiedData}, with headers: ${JSON.stringify(
-            headers.toJSON(),
-          )}`,
-        );
-
-        return stringifiedData;
-      },
       transformResponse: (data, headers) => {
         this.logger.log(
           `HTTP Response data: ${JSON.stringify(
@@ -44,7 +33,7 @@ export class HttpConfigService implements HttpModuleOptionsFactory {
           )}, with headers: ${JSON.stringify(headers.toJSON())}`,
         );
 
-        return data;
+        return JSON.parse(data);
       },
     };
   }

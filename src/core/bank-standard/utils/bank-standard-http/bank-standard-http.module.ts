@@ -1,11 +1,12 @@
 import { HttpModule } from '@nestjs/axios';
-import { DynamicModule, Logger } from '@nestjs/common';
+import { DynamicModule, Logger, Module } from '@nestjs/common';
 import {
   HTTP_CONFIG_OPTIONS,
   HttpConfigOptions,
   HttpConfigService,
 } from './http-config';
 
+@Module({})
 export class BankStandardHttpModule {
   static forRoot(httpConfigOptions: HttpConfigOptions): DynamicModule {
     return {
