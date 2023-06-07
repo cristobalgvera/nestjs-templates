@@ -33,7 +33,11 @@ export class HttpConfigService implements HttpModuleOptionsFactory {
           )}, with headers: ${JSON.stringify(headers.toJSON())}`,
         );
 
-        return JSON.parse(data);
+        try {
+          return JSON.parse(data);
+        } catch (_) {
+          return data;
+        }
       },
     };
   }
@@ -43,9 +47,9 @@ export class HttpConfigService implements HttpModuleOptionsFactory {
 
     return {
       ...headers,
-      'trace-source-id': this.getHeaderOrThrow('Trace-Source-Id'),
+      'trace-source-id': this.getHeaderOrThrow('trace-source-id'),
       'trace-client-req-timestamp': this.getHeaderOrThrow(
-        'Trace-Client-Req-Timestamp',
+        'trace-client-req-timestamp',
       ),
     };
   }

@@ -92,26 +92,40 @@ describe('HttpConfigService', () => {
 
         const loggerSpy = jest.spyOn(logger, 'log');
 
-        (transformResponse as any)(JSON.stringify('data'), expected as any);
+        (transformResponse as any)('data', expected as any);
 
         expect(loggerSpy).toHaveBeenCalledWith(
           expect.stringContaining(JSON.stringify(expected.toJSON())),
         );
       });
 
-      it('should return the data parsed', () => {
-        const { transformResponse } = underTest.createHttpOptions();
+      describe('when the data is a valid JSON', () => {
+        it('should return the data parsed', () => {
+          const { transformResponse } = underTest.createHttpOptions();
 
-        const actual = (transformResponse as any)(
-          JSON.stringify({ foo: 'bar' }),
-          { toJSON: () => ({}) } as any,
-        );
+          const actual = (transformResponse as any)(
+            JSON.stringify({ foo: 'bar' }),
+            { toJSON: () => ({}) } as any,
+          );
 
-        expect(actual).toMatchInlineSnapshot(`
-          {
-            "foo": "bar",
-          }
-        `);
+          expect(actual).toMatchInlineSnapshot(`
+            {
+              "foo": "bar",
+            }
+          `);
+        });
+      });
+
+      describe('when the data is not a valid JSON', () => {
+        it('should return the data non-parsed', () => {
+          const { transformResponse } = underTest.createHttpOptions();
+
+          const actual = (transformResponse as any)('non-valid-json', {
+            toJSON: () => ({}),
+          } as any);
+
+          expect(actual).toMatchInlineSnapshot(`"non-valid-json"`);
+        });
       });
     });
   });
