@@ -48,21 +48,19 @@ export class HttpErrorService extends ErrorService<
     caller,
     method,
     error,
-  }: HandleErrorOptions<AxiosError<unknown, any>>): void {
+  }: HandleErrorOptions<AxiosError>): void {
     this.logger.error(
       `[${caller.name}: ${method.name}] ${error.message}`,
       error.response?.data,
     );
   }
 
-  protected validateError(
-    error: AxiosError<unknown, any>,
-  ): Observable<never> | undefined {
+  protected validateError(error: AxiosError): Observable<never> | undefined {
     if (!error.isAxiosError)
       return throwError(() => Error(`Invalid error type. Expected AxiosError`));
   }
 
-  protected throwException(error: AxiosError<unknown, any>): Observable<never> {
+  protected throwException(error: AxiosError): Observable<never> {
     return throwError(() => {
       if (!error.response) throw new BadGatewayException(error.message);
 
