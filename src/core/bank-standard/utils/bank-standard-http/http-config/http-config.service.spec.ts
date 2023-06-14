@@ -127,6 +127,18 @@ describe('HttpConfigService', () => {
           expect(actual).toMatchInlineSnapshot(`"non-valid-json"`);
         });
       });
+
+      describe('when the data is not a string', () => {
+        it('should return the data non-parsed', () => {
+          const { transformResponse } = underTest.createHttpOptions();
+
+          const actual = (transformResponse as any)(1234, {
+            toJSON: () => ({}),
+          } as any);
+
+          expect(actual).toMatchInlineSnapshot(`1234`);
+        });
+      });
     });
   });
 });

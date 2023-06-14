@@ -6,7 +6,7 @@ import {
   NestMiddleware,
 } from '@nestjs/common';
 import { isObject } from 'class-validator';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 
 @Injectable()
 export class BankStandardRequestMiddleware implements NestMiddleware<Request> {
@@ -15,20 +15,27 @@ export class BankStandardRequestMiddleware implements NestMiddleware<Request> {
     private readonly serviceDomainNameCode: string,
   ) {}
 
-  use(request: Request, _: any, next: () => void) {
-    const body = request.body;
+  use(request: Request, _: Response, next: () => void) {
+    const body: unknown = request.body;
 
     if (!isObject(body) || !Object.keys(body).length) return next();
 
-    const DATA_KEY = `Request${this.serviceDomainNameCode}`;
+    const DATA_KEY = `Request${this.serviceDomainNameCode}` as const;
 
-    if (!(DATA_KEY in body))
+    if (!this.bodyHasKey(body, DATA_KEY))
       throw new BadRequestException(
         `Request${this.serviceDomainNameCode} is missing`,
       );
 
-    request.body = (body as any)[DATA_KEY];
+    request.body = body[DATA_KEY];
 
     next();
+  }
+
+  private bodyHasKey<TKey extends string>(
+    body: object,
+    key: TKey,
+  ): body is object & Record<TKey, unknown> {
+    return key in body;
   }
 }

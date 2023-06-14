@@ -26,15 +26,17 @@ export class HttpConfigService implements HttpModuleOptionsFactory {
   createHttpOptions(): HttpModuleOptions {
     return {
       headers: this.getHeaders(),
-      transformResponse: (data, headers) => {
+      transformResponse: (data: unknown, headers) => {
         this.logger.log(
           `HTTP Response data: ${JSON.stringify(
             data,
           )}, with headers: ${JSON.stringify(headers.toJSON())}`,
         );
 
+        if (typeof data !== 'string') return data;
+
         try {
-          return JSON.parse(data);
+          return JSON.parse(data) as unknown;
         } catch (_) {
           return data;
         }

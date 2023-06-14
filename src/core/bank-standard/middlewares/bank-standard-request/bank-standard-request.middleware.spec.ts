@@ -26,7 +26,7 @@ describe('BankStandardRequestMiddleware', () => {
         });
 
         it('should not modify the body', () => {
-          underTest.use(request, null, () => ({}));
+          underTest.use(request, {} as any, () => ({}));
 
           expect(request.body).toBe(body);
         });
@@ -40,7 +40,7 @@ describe('BankStandardRequestMiddleware', () => {
         });
 
         it('should modify the body', () => {
-          underTest.use(request, null, () => ({}));
+          underTest.use(request, {} as any, () => ({}));
 
           expect(request.body).toBe('data');
         });
@@ -53,7 +53,7 @@ describe('BankStandardRequestMiddleware', () => {
 
         it('should throw a BadRequestException', () => {
           expect(() =>
-            underTest.use(request, null, () => ({})),
+            underTest.use(request, {} as any, () => ({})),
           ).toThrowErrorMatchingInlineSnapshot(
             `"Requestservice_domain_name_code is missing"`,
           );
