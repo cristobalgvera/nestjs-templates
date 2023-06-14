@@ -16,6 +16,7 @@
     "start:prod": "node dist/main",
     "lint": "eslint --fix",
     "lint:all": "npm run lint -- \"{src,apps,libs,test}/**/*.ts\"",
+    "lint:types": "tsc --noEmit",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
