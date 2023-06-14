@@ -22,13 +22,13 @@ export class RedisService implements OnApplicationShutdown {
     return this.redisClient.set(key, JSON.stringify(data));
   }
 
-  async get<T = unknown>(key: string): Promise<T> {
+  async get<TResult = unknown>(key: string): Promise<TResult> {
     const data = await this.getRaw(key);
 
     if (data === null) throw new Error(`Key ${key} has not been set`);
 
     try {
-      return JSON.parse(data);
+      return JSON.parse(data) as TResult;
     } catch (error) {
       throw new InternalServerErrorException(
         `Value for key ${key} is not a valid JSON string`,
