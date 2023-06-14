@@ -18,14 +18,14 @@ export class PubSubService implements OnApplicationShutdown {
     private readonly logger: Logger,
   ) {}
 
-  onApplicationShutdown() {
+  onApplicationShutdown(): unknown {
     return this.pubSubClient.close();
   }
 
   publishMessage({ payload, pattern }: PublishMessageOptions) {
     return this.pubSubClient.emit<void>(pattern, payload).pipe(
       timeout(10_000),
-      catchError((error) => {
+      catchError((error: Error) => {
         this.logger.error(
           `[${PubSubService.name}: ${this.publishMessage.name}] ${error.message}`,
           error.stack,
