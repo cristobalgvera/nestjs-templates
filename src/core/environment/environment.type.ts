@@ -12,7 +12,7 @@ export class Environment {
   PUB_SUB_PATTERN: string;
   PUB_SUB_CLIENT_EMAIL?: string;
 
-  @Transform(({ value }) =>
+  @Transform(({ value }): string =>
     typeof value === 'string'
       ? Buffer.from(value, 'base64').toString('ascii')
       : value,
