@@ -31,6 +31,7 @@ module.exports = {
           files: ['*.spec.ts'],
           extends: ['plugin:jest/recommended', 'plugin:jest/style'],
           rules: {
+            '@typescript-eslint/no-floating-promises': 'error',
             '@typescript-eslint/no-explicit-any': 'off',
             'sonarjs/no-identical-functions': 'off',
             'sonarjs/no-duplicate-string': 'off',
