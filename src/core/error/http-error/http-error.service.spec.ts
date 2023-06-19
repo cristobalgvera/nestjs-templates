@@ -68,7 +68,7 @@ describe('HttpErrorService', () => {
             underTest.handleError({
               error: expectedError as any,
               caller: expectedCaller,
-              method: expectedMethod,
+              method: expectedMethod.name,
             }),
           );
         } catch (error) {

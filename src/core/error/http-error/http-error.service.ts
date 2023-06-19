@@ -50,7 +50,7 @@ export class HttpErrorService extends ErrorService<
     error,
   }: HandleErrorOptions<AxiosError>): void {
     this.logger.error(
-      `[${caller.name}: ${method.name}] ${error.message}`,
+      `[${caller.name}: ${method}] ${error.message}`,
       error.response?.data,
     );
   }

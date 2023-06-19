@@ -58,7 +58,7 @@ describe('RuntimeErrorService', () => {
           underTest.handleError({
             error: expected,
             caller: RuntimeErrorService,
-            method: () => ({}),
+            method: 'method' as any,
           }),
         ).toThrow(expected);
       });
