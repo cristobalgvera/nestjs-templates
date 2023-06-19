@@ -18,8 +18,15 @@ export class RedisService implements OnApplicationShutdown {
     return this.redisClient.quit();
   }
 
-  set(key: string, data: unknown) {
-    return this.redisClient.set(key, JSON.stringify(data));
+  /**
+   * @param ttl Time to live in seconds
+   */
+  set(key: string, data: unknown, ttl?: number) {
+    const stringifiedData = JSON.stringify(data);
+
+    return ttl !== undefined
+      ? this.redisClient.set(key, stringifiedData, 'EX', ttl)
+      : this.redisClient.set(key, stringifiedData);
   }
 
   async get<TResult = unknown>(key: string): Promise<TResult> {

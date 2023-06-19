@@ -26,27 +26,63 @@ describe('RedisService', () => {
 
   describe('set', () => {
     describe('when the redis client succeeds', () => {
-      it('should call the redis client with provided a key/value', async () => {
-        const value = { key: 'value' };
+      describe('when the ttl is provided', () => {
+        it('should call the redis client with the provided key/value', async () => {
+          const value = { key: 'value' };
 
-        const expectedKey = 'key';
-        const expectedValue = JSON.stringify(value);
+          const expectedKey = 'key';
+          const expectedValue = JSON.stringify(value);
+          const expectedTtl = 60;
 
-        const redisClientSpy = jest.spyOn(redisClient, 'set');
+          const redisClientSpy = jest.spyOn(redisClient, 'set');
 
-        await underTest.set(expectedKey, value);
+          await underTest.set(expectedKey, value, expectedTtl);
 
-        expect(redisClientSpy).toHaveBeenCalledWith(expectedKey, expectedValue);
+          expect(redisClientSpy).toHaveBeenCalledWith(
+            expectedKey,
+            expectedValue,
+            'EX',
+            expectedTtl,
+          );
+        });
+
+        it('should return the redis client response', async () => {
+          const expected = 'response';
+
+          jest.spyOn(redisClient, 'set').mockResolvedValueOnce(expected);
+
+          const actual = await underTest.set('key', 'value', 10);
+
+          expect(actual).toEqual(expected);
+        });
       });
 
-      it('should return the redis client response', async () => {
-        const expected = 'response';
+      describe('when the ttl is not provided', () => {
+        it('should call the redis client with the provided key/value', async () => {
+          const value = { key: 'value' };
 
-        jest.spyOn(redisClient, 'set').mockResolvedValueOnce(expected);
+          const expectedKey = 'key';
+          const expectedValue = JSON.stringify(value);
 
-        const actual = await underTest.set('key', 'value');
+          const redisClientSpy = jest.spyOn(redisClient, 'set');
 
-        expect(actual).toEqual(expected);
+          await underTest.set(expectedKey, value);
+
+          expect(redisClientSpy).toHaveBeenCalledWith(
+            expectedKey,
+            expectedValue,
+          );
+        });
+
+        it('should return the redis client response', async () => {
+          const expected = 'response';
+
+          jest.spyOn(redisClient, 'set').mockResolvedValueOnce(expected);
+
+          const actual = await underTest.set('key', 'value');
+
+          expect(actual).toEqual(expected);
+        });
       });
     });
 
