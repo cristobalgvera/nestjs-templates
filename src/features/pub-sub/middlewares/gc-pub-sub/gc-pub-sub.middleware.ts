@@ -49,7 +49,7 @@ export class GCPubSubMiddleware implements NestMiddleware<Request> {
   }
 
   private mapData({ message: { data } }: RequestBody) {
-    const decodedData = Buffer.from(data, 'base64').toString('ascii');
+    const decodedData = Buffer.from(data, 'base64').toString('utf8');
     let parsedData: unknown;
 
     try {
