@@ -1,8 +1,8 @@
 {
-  "name": "SERVICE_NAME",
+  "name": "TODO: ADD_SERVICE_NAME",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "TODO: ADD_DESCRIPTION",
+  "author": "TODO: ADD_AUTHOR_NAME",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -21,7 +21,6 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
     "typeorm:cli:base": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli",
     "typeorm:cli": "npm run typeorm:cli:base -- -d orm.migrations.config.ts",
     "migration:create": "cross-var npm run typeorm:cli:base -- migration:create ./src/core/database/migrations/$npm_config_name",
