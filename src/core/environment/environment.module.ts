@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { EnvironmentService } from './environment.service';
 import { Environment } from './environment.type';
 
+@Global()
 @Module({
   imports: [
     ConfigModule.forRoot({
