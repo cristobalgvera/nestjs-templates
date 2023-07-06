@@ -1,11 +1,11 @@
 export class Environment {
-  NODE_ENV: 'development' | 'production' | 'test';
-  PORT: number;
-  IS_SWAGGER_ENABLED: boolean;
-  DB_HOST?: string;
-  DB_NAME: string;
-  DB_PASSWORD: string;
-  DB_PORT: number;
-  DB_USERNAME: string;
-  DB_SOCKET_PATH?: string;
+  readonly NODE_ENV: 'development' | 'production' | 'test';
+  readonly PORT: number;
+  readonly IS_SWAGGER_ENABLED: boolean;
+  readonly DB_HOST?: string;
+  readonly DB_NAME: string;
+  readonly DB_PASSWORD: string;
+  readonly DB_PORT: number;
+  readonly DB_USERNAME: string;
+  readonly DB_SOCKET_PATH?: string;
 }
