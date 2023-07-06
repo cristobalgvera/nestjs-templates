@@ -1,6 +1,11 @@
 import { EnvironmentService } from '@core/environment';
 import { createCustomLogger } from '@core/logger';
-import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
+import {
+  INestApplication,
+  Logger,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
@@ -10,7 +15,10 @@ async function bootstrap() {
 
   // TODO: Add proper global prefix
   app.setGlobalPrefix('SERVICE_PREFIX');
-  app.enableVersioning();
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  });
 
   const environmentService = app.get(EnvironmentService);
 
