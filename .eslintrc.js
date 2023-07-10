@@ -1,13 +1,17 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
-  ignorePatterns: ['.eslintrc.js', 'jest.config.js'],
   overrides: [
+    {
+      env: { node: true },
+      files: ['.eslintrc.js', 'jest.config.js'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 'latest' },
+    },
     {
       files: ['*.ts'],
       parser: '@typescript-eslint/parser',
       parserOptions: {
-        project: 'tsconfig.json',
+        project: true,
         tsconfigRootDir: __dirname,
         sourceType: 'module',
       },
@@ -16,6 +20,7 @@ module.exports = {
       extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/stylistic-type-checked',
         'plugin:prettier/recommended',
         'plugin:sonarjs/recommended',
       ],
@@ -42,13 +47,15 @@ module.exports = {
     {
       files: ['*.ts'],
       excludedFiles: ['*.spec.ts'],
-      extends: [
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-      ],
+      extends: ['plugin:@typescript-eslint/strict-type-checked'],
       overrides: [
         {
           files: ['main.ts'],
           rules: { '@typescript-eslint/no-floating-promises': 'off' },
+        },
+        {
+          files: ['*.module.ts'],
+          rules: { '@typescript-eslint/no-extraneous-class': 'off' },
         },
       ],
     },
