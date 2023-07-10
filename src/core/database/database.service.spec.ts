@@ -45,7 +45,7 @@ describe('DatabaseService', () => {
     });
 
     it('should contain some extra helper properties', () => {
-      const expectedDefinedProperties: Array<keyof TypeOrmModuleOptions> = [
+      const expectedDefinedProperties: (keyof TypeOrmModuleOptions)[] = [
         'type',
       ];
 
@@ -60,7 +60,7 @@ describe('DatabaseService', () => {
     });
 
     it('should not contain some helper properties', () => {
-      const nonExpectedProperties: Array<keyof TypeOrmModuleOptions> = [
+      const nonExpectedProperties: (keyof TypeOrmModuleOptions)[] = [
         'synchronize',
       ];
 
@@ -85,7 +85,7 @@ describe('DatabaseService', () => {
       });
 
       it('should not contain some connection properties', () => {
-        const nonExpectedProperties: Array<keyof MysqlConnectionOptions> = [
+        const nonExpectedProperties: (keyof MysqlConnectionOptions)[] = [
           'host',
         ];
 
@@ -111,7 +111,7 @@ describe('DatabaseService', () => {
       });
 
       it('should not contain some connection properties as undefined', () => {
-        const nonExpectedProperties: Array<keyof MysqlConnectionOptions> = [
+        const nonExpectedProperties: (keyof MysqlConnectionOptions)[] = [
           'socketPath',
         ];
 
