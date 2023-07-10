@@ -98,10 +98,10 @@ describe('HttpErrorService', () => {
           );
         }
 
-        type CreateTestScenarioOptions = {
+        interface CreateTestScenarioOptions {
           customError?: AxiosError;
           customMessage?: string;
-        };
+        }
 
         async function createTestScenario(
           statusCode: number | undefined,

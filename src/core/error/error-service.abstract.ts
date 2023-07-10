@@ -1,6 +1,6 @@
 import { Logger, Type } from '@nestjs/common';
 
-export type HandleErrorOptions<E extends Error> = {
+export interface HandleErrorOptions<E extends Error> {
   /** The error to handle */
   error: E;
 
@@ -9,7 +9,7 @@ export type HandleErrorOptions<E extends Error> = {
 
   /** The method name of the class from where `handleError` is called */
   method: string;
-};
+}
 
 type HandleErrorOptionsSchema<E extends Error> = Pick<
   HandleErrorOptions<E>,
