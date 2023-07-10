@@ -1,4 +1,4 @@
-export type SendMessageOptions = {
+export interface SendMessageOptions {
   payload: unknown;
   pattern: string;
-};
+}
