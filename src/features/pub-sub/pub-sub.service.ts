@@ -23,7 +23,7 @@ export class PubSubService implements OnApplicationShutdown {
   }
 
   publishMessage({ payload, pattern }: PublishMessageOptions) {
-    return this.pubSubClient.emit<void>(pattern, payload).pipe(
+    return this.pubSubClient.emit<undefined>(pattern, payload).pipe(
       timeout(10_000),
       catchError((error: Error) => {
         this.logger.error(

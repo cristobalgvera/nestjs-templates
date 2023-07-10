@@ -6,8 +6,8 @@ import { CustomGCPubSubClient } from './custom-gc-pub-sub.client';
 
 export const PUB_SUB_CLIENT = 'PUB_SUB_CLIENT';
 
-export class PubSubProvider {
-  static provide(): FactoryProvider<ClientProxy> {
+export const PubSubProvider = {
+  provide: (): FactoryProvider<ClientProxy> => {
     return {
       provide: PUB_SUB_CLIENT,
       inject: [EnvironmentService],
@@ -16,8 +16,8 @@ export class PubSubProvider {
           ? createProductionClient(environmentService)
           : createDevelopmentClient(environmentService),
     };
-  }
-}
+  },
+};
 
 function createCommonOptions(
   environmentService: EnvironmentService,

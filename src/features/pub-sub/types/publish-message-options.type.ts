@@ -1,4 +1,4 @@
-export type PublishMessageOptions = {
+export interface PublishMessageOptions {
   payload: unknown;
   pattern: string;
-};
+}
