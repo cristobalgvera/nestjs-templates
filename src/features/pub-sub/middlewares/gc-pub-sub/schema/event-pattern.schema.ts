@@ -1,9 +1,9 @@
 import * as Joi from 'joi';
 
-export type EventPattern = {
+export interface EventPattern {
   pattern: string;
   data: string | number | boolean | Record<string, unknown>;
-};
+}
 
 export const eventPatternSchema = Joi.object<EventPattern, true>({
   pattern: Joi.string().required(),

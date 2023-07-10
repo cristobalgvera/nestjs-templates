@@ -18,10 +18,16 @@ export class GCPubSubMiddleware implements NestMiddleware<Request> {
 
   use(request: Request, _: Response, next: () => void) {
     const requestBody = this.validateBody(request.body);
-    if (!requestBody) return next();
+    if (!requestBody) {
+      next();
+      return;
+    }
 
     const data = this.mapData(requestBody);
-    if (!data) return next();
+    if (!data) {
+      next();
+      return;
+    }
 
     request.body = data;
 

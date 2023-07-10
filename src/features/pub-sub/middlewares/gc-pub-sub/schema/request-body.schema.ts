@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 
-export type RequestBody = {
+export interface RequestBody {
   message: {
     attributes?: Record<string, unknown>;
     data: string;
@@ -8,7 +8,7 @@ export type RequestBody = {
     publishTime?: string;
   };
   subscription: string;
-};
+}
 
 export const requestBodySchema = Joi.object<RequestBody, true>({
   message: Joi.object<RequestBody['message'], true>({
