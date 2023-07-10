@@ -1,6 +1,6 @@
 import { Collection } from './collection.type';
 
-export type CollectionProvider = {
+export interface CollectionProvider {
   collection: Collection;
   path: string;
-};
+}
