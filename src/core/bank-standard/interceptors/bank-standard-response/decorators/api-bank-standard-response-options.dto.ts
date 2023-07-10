@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 
-export type ApiBankStandardResponseOptions = {
+export interface ApiBankStandardResponseOptions {
   isArray?: boolean;
   description?: string;
   status?: HttpStatus;
-};
+}

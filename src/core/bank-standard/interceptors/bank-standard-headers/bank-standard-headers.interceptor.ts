@@ -33,13 +33,11 @@ export class BankStandardHeadersInterceptor implements NestInterceptor {
 
     const validatedHeaders = this.handleRequest(request);
 
-    return next
-      .handle()
-      .pipe(
-        tap(() =>
-          this.handleResponse(response, requestDateTime, validatedHeaders),
-        ),
-      );
+    return next.handle().pipe(
+      tap(() => {
+        this.handleResponse(response, requestDateTime, validatedHeaders);
+      }),
+    );
   }
 
   private handleRequest(request: Request) {

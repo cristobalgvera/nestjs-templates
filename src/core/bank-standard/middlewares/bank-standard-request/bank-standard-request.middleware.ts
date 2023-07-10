@@ -18,7 +18,10 @@ export class BankStandardRequestMiddleware implements NestMiddleware<Request> {
   use(request: Request, _: Response, next: () => void) {
     const body: unknown = request.body;
 
-    if (!isObject(body) || !Object.keys(body).length) return next();
+    if (!isObject(body) || !Object.keys(body).length) {
+      next();
+      return;
+    }
 
     const DATA_KEY = `Request${this.serviceDomainNameCode}` as const;
 

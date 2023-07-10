@@ -6,9 +6,9 @@ export type HttpConfigOptionsHeaders = {
   [Key in keyof BankStandardRequestHeadersDto]: string;
 };
 
-export type HttpConfigOptions = {
+export interface HttpConfigOptions {
   headers: Omit<
     HttpConfigOptionsHeaders,
     'trace-source-id' | 'trace-client-req-timestamp'
   >;
-};
+}

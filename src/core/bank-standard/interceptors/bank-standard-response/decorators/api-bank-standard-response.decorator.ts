@@ -41,10 +41,10 @@ export function ApiBankStandardResponse<TType extends Type<unknown>>(
       description,
       headers: getBankStandardResponseHeaders(),
       schema: {
-        properties: <ApiBankStandardResponseSchema>{
+        properties: {
           Result: { $ref: getSchemaPath(ResultDto) },
           ...bankResponseSchema,
-        },
+        } as ApiBankStandardResponseSchema,
       },
     }),
   );

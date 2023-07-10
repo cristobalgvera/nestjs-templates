@@ -5,10 +5,10 @@ import {
   ResponseHeadersServiceOptions,
 } from './response-headers-service-options.dto';
 
-type GetHeadersOptions = {
+interface GetHeadersOptions {
   requestDateTime: Date;
   traceSourceId: string;
-};
+}
 
 @Injectable()
 export class ResponseHeadersService {

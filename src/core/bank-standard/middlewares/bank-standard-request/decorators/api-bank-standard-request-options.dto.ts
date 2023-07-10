@@ -1,4 +1,4 @@
-export type ApiBankStandardRequestOptions = {
+export interface ApiBankStandardRequestOptions {
   isArray?: boolean;
   description?: string;
-};
+}
