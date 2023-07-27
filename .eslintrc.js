@@ -3,9 +3,9 @@ module.exports = {
   root: true,
   overrides: [
     {
-      env: { node: true },
       files: ['.eslintrc.js', 'jest.config.js'],
       parserOptions: { sourceType: 'script', ecmaVersion: 'latest' },
+      env: { node: true },
     },
     {
       files: ['*.ts'],
@@ -42,13 +42,11 @@ module.exports = {
             'sonarjs/no-duplicate-string': 'off',
           },
         },
-      ],
-    },
-    {
-      files: ['*.ts'],
-      excludedFiles: ['*.spec.ts'],
-      extends: ['plugin:@typescript-eslint/strict-type-checked'],
-      overrides: [
+        {
+          files: ['*.ts'],
+          excludedFiles: ['*.spec.ts'],
+          extends: ['plugin:@typescript-eslint/strict-type-checked'],
+        },
         {
           files: ['main.ts'],
           rules: { '@typescript-eslint/no-floating-promises': 'off' },
